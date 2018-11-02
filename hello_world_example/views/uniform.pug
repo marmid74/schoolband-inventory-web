@@ -1,0 +1,22 @@
+html
+html
+   head
+      title Uniform item
+   body
+      form(action = "/uniform", method = "POST")
+         div
+            label(for = "item_type") Type:
+            input(name = "item_type" value = "Jacket")
+         br
+         div
+            label(for = "size") Size:
+            input(name = "size")
+         br
+         div
+            label(for = "item_number") Item number:
+            input(name = "item_number")
+         div
+            label(for = "status") Status:
+            input(name = "status")
+         br
+         button(type = "submit") Create new uniform item
