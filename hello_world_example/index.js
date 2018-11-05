@@ -46,7 +46,8 @@ app.post('/', function(req, res){
 //lage et api for uniform create, read, update , delete
 
 app.get('/api/uniform/add', function(req, res){
-    res.render('uniform');
+    //res.render('uniform');// points to uniform.pug
+    res.send({'item_type': 'genser', 'size': '67', 'item_number': '77', 'status': 'api er gøy'});
 });
 
 app.post('/api/uniform/add', function(req, res){
@@ -87,6 +88,17 @@ app.post('/api/uniform/add', function(req, res){
                 message: "New uniform item added", type: "success", uniform_item: uniformInfo});
     });
     
+});
+
+app.get('/api/uniform/list', (req, res) => {
+    //dummy data
+    const allItems = [{'item_type': 'beret', 'size':'56' },{'item_type': 'båtlue', 'size':'59' }];
+    //TODO find kall til db
+    //const AllUniforms = mongoose.
+    //send result respond til api endepunkt
+    console.log(AllUniforms);
+    res.send(allItems);
+
 });
 
 
