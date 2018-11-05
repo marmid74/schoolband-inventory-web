@@ -1,3 +1,5 @@
+const Joi = require('joi');
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var multer = require('multer');
@@ -41,34 +43,50 @@ app.post('/', function(req, res){
    res.send("recieved your request!");
 });
 
+//lage et api for uniform create, read, update , delete
 
-
-app.get('/uniform', function(req, res){
+app.get('/api/uniform/add', function(req, res){
     res.render('uniform');
 });
 
-app.post('/uniform', function(req, res){
+app.post('/api/uniform/add', function(req, res){
+    const schema = {
+        item_type: Joi.string().min(3).required(),
+        size: Joi.number().required(),
+        item_number: Joi.number().required(),
+        status: Joi.string().min(4).required()
+    }
+
+    const result = Joi.validate(req.body, schema);
+    if (result.error) {
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
     var uniformInfo = req.body; //Get the parsed information
+     
     console.log(req.body);
+    /*
     if(!uniformInfo.item_type || !uniformInfo.size || !uniformInfo.item_number){
         res.render('show_message.pug', {
             message: "Sorry, you provided wrong info", type: "error"});
-    } else {
-        var newUniform = new Uniform({
-            item_type: uniformInfo.item_type,
-            size: uniformInfo.size,
-            item_number: uniformInfo.item_number,
-            status: uniformInfo.status
-        });
+    } else { */
 
-        newUniform.save(function(err, Uniform){
-            if(err)
-                res.render('show_message.pug', {message: "Database error", type: "error"});
-            else
-                res.render('show_message.pug', {
-                    message: "New uniform item added", type: "success", uniform_item: uniformInfo});
-        });
-    }
+    var newUniform = new Uniform({
+        item_type: uniformInfo.item_type,
+        size: uniformInfo.size,
+        item_number: uniformInfo.item_number,
+        status: uniformInfo.status
+    });
+
+    newUniform.save(function(err, Uniform){
+        if(err)
+            res.render('show_message.pug', {message: "Database error", type: "error"});
+        else
+            res.render('show_message.pug', {
+                message: "New uniform item added", type: "success", uniform_item: uniformInfo});
+    });
+    
 });
 
 
