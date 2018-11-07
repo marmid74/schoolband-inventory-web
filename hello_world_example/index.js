@@ -82,10 +82,9 @@ app.post('/api/uniform/add', function(req, res){
 
     newUniform.save(function(err, Uniform){
         if(err)
-            res.render('show_message.pug', {message: "Database error", type: "error"});
+            res.send({message: "Database error", type: "error"});
         else
-            res.render('show_message.pug', {
-                message: "New uniform item added", type: "success", uniform_item: uniformInfo});
+            res.send({message: "New uniform item added", type: "success", uniform_item: uniformInfo});
     });
     
 });
@@ -94,7 +93,7 @@ app.get('/api/uniform/list', (req, res) => {
     //dummy data
     const allItems = [{'item_type': 'beret', 'size':'56' },{'item_type': 'båtlue', 'size':'59' }];
     //TODO find kall til db
-    //const AllUniforms = mongoose.
+    Uniform.find
     //send result respond til api endepunkt
     console.log(AllUniforms);
     res.send(allItems);
