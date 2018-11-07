@@ -1,0 +1,49 @@
+{
+  "name": "BrassTory",
+  "version": "1.0.0",
+  "description": "Simple app to store schoolband uniforms and instruments.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "babel-watch src/index.js",
+    "test": "mocha --require babel-core/register",
+    "build": "babel src -s -D -d dist --presets es2015,stage-0",
+    "lint": "eslint src test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marmid74/schoolband-inventory-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marmid74/schoolband-inventory-web/issues"
+  },
+  "homepage": "https://github.com/marmid74/schoolband-inventory-web#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.1",
+    "express": "^4.16.4",
+    "joi": "^14.0.4",
+    "mongoose": "^5.3.9",
+    "nodemon": "^1.18.6"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-watch": "^2.0.7",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}
