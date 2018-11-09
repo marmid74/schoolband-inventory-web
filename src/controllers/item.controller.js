@@ -6,7 +6,7 @@ export function create(req, res) {
       return res.status(400).send({ message: 'Item cannot be empty.' });
     }
 
-    return res.status(200).send({message: "Her skal du lagre et item"});
+    return res.status(200).send({message: "Her skal du lagre et item."});
 }
 
 export function listAll(req, res){
