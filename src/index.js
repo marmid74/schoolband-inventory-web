@@ -16,11 +16,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// 3rd party middleware
+/*/ 3rd party middleware
 app.use(cors({
     exposedHeaders: config.corsHeaders
   }));
-
+*/
 
 app.get('/', function(req, res){
     res.send({});
