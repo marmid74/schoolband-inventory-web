@@ -2,3 +2,5 @@
 ./hello_world_example/node_modules
 ./express_mongodb_example/node_modules
 node_modules/
+dist/
+.vscode/

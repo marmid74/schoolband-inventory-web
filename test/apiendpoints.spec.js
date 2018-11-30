@@ -22,9 +22,10 @@ let req_body =
 {
 	"item_type": "skjorte",
 	"item_id": "1",
-	"size": "55",
-	"item_number": "76",
-	"status": "bortkastet"
+  "item_model": "D40",
+  "item_size": "40",
+	"item_quality": "good",
+	"item_location": "lager"
 };
 
 

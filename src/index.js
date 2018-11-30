@@ -5,10 +5,15 @@ import items from './routes/item.routes';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
 
 const app = express();
 app.server = http.createServer(app);
+
+//connect to db
+mongoose.connect(config.mongoHost);
+
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
