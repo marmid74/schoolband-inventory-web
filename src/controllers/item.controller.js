@@ -21,8 +21,8 @@ export function create(req, res) {
     }
 
     new Item({
-        type: req.body.type,
         id: req.body.id,
+        type: req.body.type,
         model: req.body.model,
         size: req.body.size,
         quality: req.body.quality,
@@ -42,6 +42,25 @@ export function create(req, res) {
       });
 
 }
+
+
+
+
+export function findOne(req, res){
+    
+
+    Item.findOne({id: req.params.itemID})
+        .then((items)=>{
+            if(!items) {
+                return res.status(404).send({message:'Item not found with ' + req.body.param + ' ' + req.body.value});
+            }
+            res.send(items);
+        })
+        .catch((err)=>{
+            handleError(res, err, 'Error retrieving item with '+ req.body.param + ' ' + req.body.value);
+        });
+}
+
 
 
 export function listAll(req, res){
