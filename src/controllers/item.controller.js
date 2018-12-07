@@ -8,22 +8,25 @@ const handleError = (res, err, errMessage) => {
     return res.status(500).send({ message: errMessage + err });
   };
 
-
+/* export function dummy(req,res){
+    return res.status(200).send({message: 'Yep, api alive'});
+}
+*/
 
 export function create(req, res) {
+    console.log("Retur: " + req.body.type);
     // Create and Save a new Item
     if(!req.body) {
       return res.status(400).send({ message: 'Item cannot be empty....' });
     }
 
     new Item({
-        item_type: req.body.item_type,
-        item_id: req.body.item_id,
-        item_model: req.body.item_model,
-        item_size: req.body.item_size,
-        item_number: req.body.item_number,
-        item_quality: req.body.item_quality,
-        item_location: req.body.item_location 
+        type: req.body.type,
+        id: req.body.id,
+        model: req.body.model,
+        size: req.body.size,
+        quality: req.body.quality,
+        location: req.body.location 
     }).save()
       .then((saved) => {
         console.log('Item saved:', saved);

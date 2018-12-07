@@ -28,7 +28,7 @@ app.use(cors({
 */
 
 app.get('/', function(req, res){
-    res.send({});
+    res.send({message: "Hallo"});
  });
 
 // Set up routes

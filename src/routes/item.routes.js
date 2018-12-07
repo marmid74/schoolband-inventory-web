@@ -2,6 +2,11 @@ import express from 'express';
 let router = express.Router();
 import * as items from '../controllers/item.controller';
 
+/*
+//Dummy check
+router.post('/api/items', items.dummy);
+*/
+
 // Create a new Item
 router.post('/api/items', items.create);
 
