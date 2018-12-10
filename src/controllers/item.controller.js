@@ -13,7 +13,9 @@ const handleError = (res, err, errMessage) => {
 }
 */
 
-export function create(req, res) {
+
+//asyncron
+/*export function create(req, res) {
     console.log("Retur: " + req.body.type);
     // Create and Save a new Item
     if(!req.body) {
@@ -42,17 +44,57 @@ export function create(req, res) {
       });
 
 }
+*/
+//syncron
+export function create (req,res) {
+    const newItemObj = new Item(req.body);
+    newItemObj.save(err => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).send(newItemObj);
+    });
+}
 
+/* NOT WORKING YET
+export function updateOne(req, res){
+    let item = req.params.itemID;
+    let itemid = item.toString();
 
-
-
-export function findOne(req, res){
+    Item.findOneAndUpdate(itemid, {$set: req.body},callback );
     
+}
+*/
 
-    Item.findOne({id: req.params.itemID})
+
+export function findById(req,res){
+    Item.findById(req.params.itemId, (err, Item) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send(Item);
+    });
+}
+
+export function find(req,res) {   
+    if (req.body){
+        Item.find(req.body, (err, items) => {
+            if(err) return res.status(500).send(err);
+            return res.status(200).send(items);
+        });
+    } else {
+        Item.find((err, items) => {
+            if(err) return res.status(500).send(err);
+            return res.status(200).send(items);
+        });
+    }
+
+    
+}
+/*
+export function findOne(req, res){
+    let item = req.params.itemID;
+    let itemid = item.toString();
+    Item.findOne({id: itemid})
         .then((items)=>{
             if(!items) {
-                return res.status(404).send({message:'Item not found with ' + req.body.param + ' ' + req.body.value});
+                return res.status(404).send({message:'Item: '+ req.params.itemID + ' not found with id: ' + req.body.param + ' ,value: ' + req.body.value});
             }
             res.send(items);
         })
@@ -61,7 +103,7 @@ export function findOne(req, res){
         });
 }
 
-
+*/
 
 export function listAll(req, res){
     //List all items of a specific type from Db
