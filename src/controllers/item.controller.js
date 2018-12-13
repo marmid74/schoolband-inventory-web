@@ -54,15 +54,14 @@ export function create (req,res) {
     });
 }
 
-/* NOT WORKING YET
-export function updateOne(req, res){
-    let item = req.params.itemID;
-    let itemid = item.toString();
 
-    Item.findOneAndUpdate(itemid, {$set: req.body},callback );
-    
+export function findByIdAndUpdate(req, res){
+    Item.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).send(items);
+    })
 }
-*/
+
 
 
 export function findById(req,res){

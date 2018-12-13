@@ -18,7 +18,7 @@ router.get('/api/items', items.find);
 router.get('/api/items/:itemId', items.findById);
 
 //Find by one by id and update 
-//router.post('/api/items/:itemId', items.updateOne);
+router.post('/api/items/:itemId', items.findByIdAndUpdate);
 
 
 //List all items
