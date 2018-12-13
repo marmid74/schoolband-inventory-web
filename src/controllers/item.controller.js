@@ -47,6 +47,7 @@ const handleError = (res, err, errMessage) => {
 */
 //syncron
 export function create (req,res) {
+    console.log("EndpointAPI: create");
     const newItemObj = new Item(req.body);
     newItemObj.save(err => {
         if(err) return res.status(500).send(err);
@@ -56,6 +57,7 @@ export function create (req,res) {
 
 
 export function findByIdAndUpdate(req, res){
+    console.log("EndpointAPI: findByIdAndUpdate");
     Item.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {
         if(err) return res.status(500).send(err);
         return res.status(200).send(items);
@@ -65,6 +67,7 @@ export function findByIdAndUpdate(req, res){
 
 
 export function findById(req,res){
+    console.log("EndpointAPI: findById");
     Item.findById(req.params.itemId, (err, Item) => {
         if (err) return res.status(500).send(err);
         return res.status(200).send(Item);
@@ -72,6 +75,7 @@ export function findById(req,res){
 }
 
 export function find(req,res) {   
+    console.log("EndpointAPI: find");
     if (req.body){
         Item.find(req.body, (err, items) => {
             if(err) return res.status(500).send(err);
@@ -83,29 +87,11 @@ export function find(req,res) {
             return res.status(200).send(items);
         });
     }
-
-    
 }
-/*
-export function findOne(req, res){
-    let item = req.params.itemID;
-    let itemid = item.toString();
-    Item.findOne({id: itemid})
-        .then((items)=>{
-            if(!items) {
-                return res.status(404).send({message:'Item: '+ req.params.itemID + ' not found with id: ' + req.body.param + ' ,value: ' + req.body.value});
-            }
-            res.send(items);
-        })
-        .catch((err)=>{
-            handleError(res, err, 'Error retrieving item with '+ req.body.param + ' ' + req.body.value);
-        });
-}
-
-*/
 
 export function listAll(req, res){
     //List all items of a specific type from Db
+    console.log("EndpointAPI: listAll");
     Item.find()
         .then(items => {
             console.log(items);
@@ -115,4 +101,16 @@ export function listAll(req, res){
             console.log("Error in fetching items");
             handleError(res,err, "There was an error retrieving items");
         });
+}
+
+export function findByIdAndDelete(req, res){
+    console.log("EndpointAPI: findByIdAndDelete");
+    Item.findByIdAndDelete(req.params.itemId, (err, items) => {
+        if (err) return res.status(500).send(err);
+        const response = {
+            message: "Item successfully deleted",
+            id: items._id
+        };
+        return res.status(200).send(response);
+    });
 }
