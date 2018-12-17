@@ -6,6 +6,7 @@ import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import morgan from 'morgan';
 
 
 const app = express();
@@ -21,11 +22,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-/*/ 3rd party middleware
+// 3rd party middleware
 app.use(cors({
     exposedHeaders: config.corsHeaders
-  }));
-*/
+  })
+);
+app.use(morgan('combined'));
+
 
 app.get('/', function(req, res){
     res.send();

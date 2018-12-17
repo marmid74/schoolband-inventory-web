@@ -45,6 +45,8 @@ const handleError = (res, err, errMessage) => {
 
 }
 */
+
+
 //syncron
 export function create (req,res) {
     console.log("EndpointAPI: create");
@@ -63,7 +65,6 @@ export function findByIdAndUpdate(req, res){
         return res.status(200).send(items);
     })
 }
-
 
 
 export function findById(req,res){
@@ -89,6 +90,7 @@ export function find(req,res) {
     }
 }
 
+//not in use --- below find in item.routes.js
 export function listAll(req, res){
     //List all items of a specific type from Db
     console.log("EndpointAPI: listAll");
