@@ -75,14 +75,14 @@
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <span class="hidden-sm-and-down">Google Contacts</span>
       </v-toolbar-title>
-      <v-text-field
+      <!-- v-text-field
         flat
         solo-inverted
         hide-details
         prepend-inner-icon="search"
         label="Search"
         class="hidden-sm-and-down"
-      ></v-text-field>
+      ></v-text-field -->
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>apps</v-icon>
@@ -102,7 +102,7 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
-          <v-tooltip right>
+          <!-- v-tooltip right>
             <v-btn
               slot="activator"
               :href="source"
@@ -119,10 +119,12 @@
               <v-icon large>mdi-codepen</v-icon>
             </v-btn>
             <span>Codepen</span>
-          </v-tooltip>
+          </v-tooltip -->
+          <bitems></bitems>
         </v-layout>
       </v-container>
     </v-content>
+    <edit-bitems></edit-bitems>
     <v-btn
       fab
       bottom
@@ -139,7 +141,7 @@
         <v-card-title
           class="grey lighten-4 py-4 title"
         >
-          Create contact
+          Create new inventory item
         </v-card-title>
         <v-container grid-list-sm class="pa-4">
           <v-layout row wrap>
@@ -201,7 +203,20 @@
 </template>
 
 <script>
+import Bitems from './Bitems.vue'
+import EditBitems from './EditBitems.vue'
+
 export default {
+  name: 'Home',
+  components: {
+    Bitems,
+    EditBitems
+  },
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn
+    }
+  },
   data: () => ({
     dialog: false,
     drawer: null,
@@ -240,6 +255,20 @@ export default {
   }),
   props: {
     source: String
+  },
+  methods: {
+    menuAction: function () {
+      //  TODO
+    },
+    showProfile: function () {
+      console.log('show profile clicked!')
+    }
+  },
+  mounted: function () {
+    console.log('Is user logged in?', this.isLoggedIn)
+    if (!this.isLoggedIn) {
+      this.$router.push({path: '/login'})
+    }
   }
 }
 </script>
