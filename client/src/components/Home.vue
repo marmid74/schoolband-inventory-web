@@ -124,7 +124,6 @@
         </v-layout>
       </v-container>
     </v-content>
-    <edit-bitems></edit-bitems>
     <v-btn
       fab
       bottom
@@ -208,8 +207,7 @@ import EditBitems from './EditBitems.vue'
 export default {
   name: 'Home',
   components: {
-    Bitems,
-    EditBitems
+    Bitems
   },
   computed: {
     isLoggedIn () {
