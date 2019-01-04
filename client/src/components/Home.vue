@@ -205,7 +205,6 @@
 <script>
 import Bitems from './Bitems.vue'
 import EditBitems from './EditBitems.vue'
-
 export default {
   name: 'Home',
   components: {
