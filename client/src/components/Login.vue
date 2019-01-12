@@ -72,6 +72,7 @@ export default {
       this.$store.dispatch('logInUser', payload)
         .then(() => {
           if (vm.isLoggedIn) {
+            console.log('Login successfull, redirect to Home')
             this.$router.push({ path: '/' })
           } else {
             vm.showAlert = true

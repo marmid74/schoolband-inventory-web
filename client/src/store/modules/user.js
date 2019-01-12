@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const state = {
   email: '',
   userId: null,
@@ -12,15 +14,21 @@ const getters = {
 }
 
 const actions = {
-  logInUser ({ commit }, payload) {
-    //  We call into the API in the next module
-    if (payload.email === 'test1@user.com' && payload.password === 'test111') {
-      //  Simulate getting back a valid userID from the API call...
-      payload.userId = '5a77f0a75f64a1698221d98'
-      commit('logInUser', payload)
-    } else {
-      commit('loginError')
-    }
+  async logInUser ({ commit }, payload) {
+    console.log('Client actions: ', payload)
+    let url = '/users/email/' + payload.email
+    await Vue.axios.post(url, payload)
+      .then((resp) => {
+        console.log('response from db: ', resp)
+        if (resp.status === 200) {
+          commit('logInUser', payload)
+        } else {
+          commit('loginError')
+        }
+      })
+      .catch(() => {
+        commit('loginError')
+      })
   }
 }
 

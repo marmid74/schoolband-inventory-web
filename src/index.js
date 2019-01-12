@@ -2,6 +2,7 @@ import express from 'express';
 import chalk from 'chalk';
 import * as config from './config';
 import items from './routes/item.routes';
+import users from './routes/user.routes';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -36,6 +37,7 @@ app.get('/', function(req, res){
 
 // Set up routes
 app.use('/', items);
+app.use('/', users)
 
 // listen for requests
 app.listen(config.port, () => {
