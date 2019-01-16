@@ -52,57 +52,54 @@
         >
           Create new inventory item
         </v-card-title>
-        <v-container grid-list-sm class="pa-4">
+               <v-container id="dropdown-data" grid-list-sm class="pa-4">
           <v-layout row wrap>
-            <v-flex xs6 align-center justify-space-between>
-              <p >Uniform type</p>
-                <v-overflow-btn
-                  :items="dropdown_types"
-                  label="Uniform type"
-                  v-model="item_type"
-                  target="#dropdown-example"
-                ></v-overflow-btn>
+            <v-flex xs12 sm4>
+              <p>Uniform type</p>
+              <v-overflow-btn
+                :items="dropdown_types"
+                label="Uniform type"
+                v-model="item_type"
+                target="#dropdown-data"
+              ></v-overflow-btn>
             </v-flex>
-            <v-flex xs6 align-right>
+            <v-flex xs12 sm4>
               <p>Model</p>
-                <v-overflow-btn
-                  :items="dropdown_models"
-                  label="Model"
-                  v-model="model"
-                ></v-overflow-btn>
+              <v-overflow-btn
+                :items="dropdown_models"
+                label="Model"
+                v-model="model"
+                target="#dropdown-data"
+              ></v-overflow-btn>
+            </v-flex>
+            <v-flex xs12 sm4>
+              <p>Size</p>
+              <v-overflow-btn
+                :items="dropdown_sizes"
+                label="Size"
+                v-model="size"
+                target="#dropdown-data"
+              ></v-overflow-btn>
+            </v-flex>
+            <v-flex xs12 sm4>
+              <p>Quality</p>
+              <v-overflow-btn
+                :items="dropdown_qualities"
+                label="Quality"
+                v-model="quality"
+                target="#dropdown-data"
+              ></v-overflow-btn>
+            </v-flex>
+            <v-flex xs12 sm4>
+              <p>Location</p>
+              <v-overflow-btn
+                :items="dropdown_locations"
+                label="Loaction"
+                v-model="location"
+                target="#dropdown-data"
+              ></v-overflow-btn>
             </v-flex>
           </v-layout>
-            <v-flex xs6>
-              <v-text-field
-                prepend-icon="business"
-                placeholder="Company"
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs6>
-              <v-text-field
-                placeholder="Job title"
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field
-                prepend-icon="mail"
-                placeholder="Email"
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field
-                type="tel"
-                prepend-icon="phone"
-                placeholder="(000) 000 - 0000"
-                mask="phone"
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field
-                prepend-icon="notes"
-                placeholder="Notes"
-              ></v-text-field>
-            </v-flex>
         </v-container>
         <v-card-actions>
           <v-btn flat color="primary">More</v-btn>
