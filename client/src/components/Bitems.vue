@@ -10,20 +10,20 @@
       </v-flex>
       <v-flex xs12 sm6 offset-sm3>
         <h2>Results</h2>
-        <v-table :data="dbResult">
+        <v-table :data="dbResponse">
           <thead slot="head">
+            <th>Item nr</th>
             <th>Type</th>
             <th>Model</th>
-            <th>Id nr</th>
             <th>Size</th>
             <th>Quality</th>
             <th>Location</th>
           </thead>
           <tbody slot="body" slot-scope="{displayData}">
-            <tr v-for="row in displayData" :key="row.id">
+            <tr v-for="row in displayData" :key="row._id">
+              <td>{{ row.nr }}</td>
               <td>{{ row.type }}</td>
               <td>{{ row.model }}</td>
-              <td>{{ row.id }}</td>
               <td>{{ row.size }}</td>
               <td>{{ row.quality}}</td>
               <td>{{ row.location }}</td>
@@ -31,7 +31,7 @@
           </tbody>
         </v-table>
         <v-card-text style="height: 100px; position: relative">
-          <v-btn v-on:click="addData"
+          <v-btn v-on:click="addNew"
             absolute
             dark
             fab
@@ -105,7 +105,7 @@
           <v-btn flat color="primary">More</v-btn>
           <v-spacer></v-spacer>
           <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-          <v-btn flat @click="storeData">Save</v-btn>
+          <v-btn flat @click="createNewItem">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -128,12 +128,13 @@ export default {
     model: '',
     size: '',
     quality: '',
-    location: ''
+    location: '',
+    payload: {}
   }),
   computed: {
-    dbResult () {
-      let temp = this.$store.getters.dbResult
-      console.log('Computed: ', temp)
+    dbResponse () {
+      let temp = this.$store.getters.dbResponse
+      console.log('dbResonse: ', temp)
       return temp
       // return this.$store.getters.dbResult
     }
@@ -142,18 +143,20 @@ export default {
     getData: function () {
       this.$store.dispatch('getData')
     },
-    addData: function () {
-      console.log('Save item to db')
+    addNew: function () {
+      console.log('Opend dialog box for create new item')
     },
-    storeData: function () {
-      const payload = {
-        item_type: this.item_type,
+    createNewItem: function () {
+      this.payload = {
+        nr: '',
+        type: this.item_type,
         model: this.model,
         size: this.size,
         quality: this.quality,
         location: this.location
       }
-      console.log('Save item to db:', payload)
+      console.log('Bitems.vue: Save item to db:', this.payload)
+      this.$store.dispatch('createNewItem', this.payload)
     }
   }
 

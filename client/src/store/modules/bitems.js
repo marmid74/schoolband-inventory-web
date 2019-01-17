@@ -2,13 +2,14 @@ import Vue from 'vue'
 
 const state = {
   itemType: '',
-  dbResult: [],
-  itemId: ''
+  dbResponse: {},
+  itemId: '',
+  errorState: ''
 }
 
 const getters = {
   itemType: state => state.itemType,
-  dbResult: state => state.dbResult,
+  dbResponse: state => state.dbResponse,
   itemId: state => state.itemId
 }
 
@@ -19,24 +20,38 @@ const actions = {
       .then((resp) => {
         console.log('response from db: ', resp)
         if (resp.status === 200) {
-          commit('showData', resp)
+          commit('showResponse', resp)
         } else {
-          commit('showError')
+          commit('showError', resp)
         }
       })
       .catch(() => {
-        commit('showError')
+        commit('showError', 'Error: failed in Vue axios get')
       })
   },
-  async calulateNextId ({ commit }) {
-    console.log('getLastId and calculate nextId')
+  async createNewItem ({ commit }, payload) {
+    await Vue.axios.post('/items/', payload)
+      .then((resp) => {
+        console.log('response from db: ', resp)
+        if (resp.status === 200) {
+          commit('showResponse', resp)
+        } else {
+          commit('showError', resp)
+        }
+      })
+      .catch(() => {
+        commit('showError', 'Error: failed in Vue axios post')
+      })
   }
 }
 
 const mutations = {
-  showData (state, resp) {
-    state.dbResult = resp.data
-    console.log('State dbResult: ', state.dbResult)
+  showResponse (state, resp) {
+    state.dbResponse = resp.data
+    console.log('New State of dbResponse: ', state.dbResponse)
+  },
+  showError (resp) {
+    console.log('show Error: ', resp)
   }
 }
 
