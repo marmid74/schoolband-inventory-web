@@ -122,6 +122,8 @@ export default {
     dropdown_models: ['Standard', 'Woman C', 'Woman D'],
     dropdown_sizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '36', '38', '40', '42'],
     dropdown_qualities: ['poor', 'average', 'good'],
+    dropdown_locations: ['storage', 'cleaning', 'in use'],
+    item_id: '',
     item_type: '',
     model: '',
     size: '',

@@ -50,11 +50,54 @@ const handleError = (res, err, errMessage) => {
 //syncron
 export function create (req,res) {
     console.log("EndpointAPI: create");
-    const newItemObj = new Item(req.body);
+    let countItems = 0;
+    if (req.body){
+        let filterObj = {"size": req.body.size};
+        console.log('Searchobj: ', filterObj);
+        Item.find(filterObj)
+            .then(items => {
+                console.log('result search items: ', items);       
+                countItems = (Object.keys(items).length).toString();
+                console.log('Value of count: ', countItems);
+                let newItemObj = new Item(req.body);
+                let nextId = parseInt(countItems) + 1;
+                newItemObj.id = req.body.size + '-' + nextId.toString();
+                console.log('new id: ', newItemObj.id);
+                newItemObj.save()
+                    .then((saved) => {
+                        console.log('Item saved:', saved);
+                        res.send({
+                            message: 'Item saved successfully:',
+                            body: saved
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        res.status(500).send({
+                        message: 'There was an error saving this item.'
+                        });
+                    });
+            })
+            .catch((err) => {
+                console.log("Error in fetching items");
+                handleError(res,err, "There was an error retrieving items");
+            });
+    }
+    
+/*
+
+
+    console.log('countItems: ', countItems);
+
+    let newItemObj = new Item(req.body);
+    let nextId = countItems +1;
+    newItemObj.id = req.body.size + '-' + nextId.toString();
+    console.log('new id: ', newItemObj.id);
     newItemObj.save(err => {
         if(err) return res.status(500).send(err);
         return res.status(200).send(newItemObj);
     });
+*/
 }
 
 
@@ -79,12 +122,13 @@ export function find(req,res) {
     console.log("EndpointAPI: find");
     if (req.body){
         Item.find(req.body, (err, items) => {
-            if(err) return res.status(500).send(err);
+            if(err) return res.status(500).send(err);         
             return res.status(200).send(items);
         });
     } else {
         Item.find((err, items) => {
             if(err) return res.status(500).send(err);
+            
             return res.status(200).send(items);
         });
     }

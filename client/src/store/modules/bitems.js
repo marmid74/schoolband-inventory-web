@@ -2,12 +2,14 @@ import Vue from 'vue'
 
 const state = {
   itemType: '',
-  dbResult: []
+  dbResult: [],
+  itemId: ''
 }
 
 const getters = {
   itemType: state => state.itemType,
-  dbResult: state => state.dbResult
+  dbResult: state => state.dbResult,
+  itemId: state => state.itemId
 }
 
 const actions = {
@@ -25,6 +27,9 @@ const actions = {
       .catch(() => {
         commit('showError')
       })
+  },
+  async calulateNextId ({ commit }) {
+    console.log('getLastId and calculate nextId')
   }
 }
 
