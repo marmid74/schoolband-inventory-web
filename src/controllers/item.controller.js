@@ -51,9 +51,15 @@ const handleError = (res, err, errMessage) => {
 export function create (req,res) {
     console.log("EndpointAPI: create");
     let countItems = 0;
-    if (req.body){
-        let filterObj = {"size": req.body.size};
+    console.log('body:', req.body);
+
+    if ( (req.body.size != null) && (req.body.type != null) ) {
+        let filterObj = {
+            "size": req.body.size,
+            "type": req.body.type
+        };
         console.log('Searchobj: ', filterObj);
+        console.log('Type : ', req.body.type);
         Item.find(filterObj)
             .then(items => {
                 console.log('result search items: ', items);       
@@ -61,8 +67,8 @@ export function create (req,res) {
                 console.log('Value of count: ', countItems);
                 let newItemObj = new Item(req.body);
                 let nextId = parseInt(countItems) + 1;
-                newItemObj.id = req.body.size + '-' + nextId.toString();
-                console.log('new id: ', newItemObj.id);
+                newItemObj.nr = req.body.size + '-' + nextId.toString();
+                console.log('new obj ', newItemObj);
                 newItemObj.save()
                     .then((saved) => {
                         console.log('Item saved:', saved);
@@ -82,22 +88,12 @@ export function create (req,res) {
                 console.log("Error in fetching items");
                 handleError(res,err, "There was an error retrieving items");
             });
+    } else {
+        res.status(500).send({
+            message: 'Size and Type of item required. Item not saved.',
+            body: req.body
+            });
     }
-    
-/*
-
-
-    console.log('countItems: ', countItems);
-
-    let newItemObj = new Item(req.body);
-    let nextId = countItems +1;
-    newItemObj.id = req.body.size + '-' + nextId.toString();
-    console.log('new id: ', newItemObj.id);
-    newItemObj.save(err => {
-        if(err) return res.status(500).send(err);
-        return res.status(200).send(newItemObj);
-    });
-*/
 }
 
 
