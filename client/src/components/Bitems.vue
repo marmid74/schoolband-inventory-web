@@ -155,6 +155,7 @@ export default {
         quality: this.quality,
         location: this.location
       }
+      this.dialog = false
       console.log('Bitems.vue: Save item to db:', this.payload)
       this.$store.dispatch('createNewItem', this.payload)
     }

@@ -45,9 +45,48 @@ const handleError = (res, err, errMessage) => {
 
 }
 */
+export async function create (req,res) {
+    console.log("EndpointAPI: create");
+    let countItems = 0;
+    console.log('body:', req.body);
+
+    if ( (req.body.size != null) && (req.body.type != null) ) {
+        let filterObj = {
+            "size": req.body.size,
+            "type": req.body.type
+        };
+        console.log('Searchobj: ', filterObj);
+        console.log('Type : ', req.body.type);
+
+        try {
+            let dbLookUp =  await Item.find(filterObj)
+            console.log('dbLookUp result:', dbLookUp);
+
+            countItems = (Object.keys(dbLookUp).length).toString();
+            console.log('Value of count: ', countItems);
+
+            let newItemObj = new Item(req.body);
+            let nextId = parseInt(countItems) + 1;
+            newItemObj.nr = req.body.size + '-' + nextId.toString();
+            console.log('new obj to be saved', newItemObj);
+
+            let result = await newItemObj.save();
+            res.send({
+                message: 'Item saved successfully:',
+                body: result
+            });
+        } catch (err) {
+            console.log('Error in Create new item: ', err);
+            return res.status(500).send(err);
+        }
+    }
+     
+}
+
 
 
 //syncron
+/*
 export function create (req,res) {
     console.log("EndpointAPI: create");
     let countItems = 0;
@@ -95,8 +134,7 @@ export function create (req,res) {
             });
     }
 }
-
-
+*/
 export function findByIdAndUpdate(req, res){
     console.log("EndpointAPI: findByIdAndUpdate");
     Item.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {

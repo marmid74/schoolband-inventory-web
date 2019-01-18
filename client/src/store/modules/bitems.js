@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 const state = {
   itemType: '',
-  dbResponse: {},
+  dbResponse: [],
   itemId: '',
   errorState: ''
 }
