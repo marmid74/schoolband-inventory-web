@@ -10,26 +10,19 @@
       </v-flex>
       <v-flex xs12 sm6 offset-sm3>
         <h2>Results</h2>
-        <v-table :data="dbResponse">
-          <thead slot="head">
-            <th>Item nr</th>
-            <th>Type</th>
-            <th>Model</th>
-            <th>Size</th>
-            <th>Quality</th>
-            <th>Location</th>
-          </thead>
-          <tbody slot="body" slot-scope="{displayData}">
-            <tr v-for="row in displayData" :key="row._id">
-              <td>{{ row.nr }}</td>
-              <td>{{ row.type }}</td>
-              <td>{{ row.model }}</td>
-              <td>{{ row.size }}</td>
-              <td>{{ row.quality}}</td>
-              <td>{{ row.location }}</td>
-            </tr>
-          </tbody>
-        </v-table>
+        <v-data-table
+          :headers="headers"
+          :items="dbResponse"
+        >
+          <template slot="items" slot-scope="row">
+              <td>{{ row.item.nr }}</td>
+              <td>{{ row.item.type }}</td>
+              <td>{{ row.item.model }}</td>
+              <td>{{ row.item.size }}</td>
+              <td>{{ row.item.quality}}</td>
+              <td>{{ row.item.location }}</td>
+          </template>
+        </v-data-table>
         <v-card-text style="height: 100px; position: relative">
           <v-btn v-on:click="addNew"
             absolute
@@ -118,6 +111,29 @@ export default {
   data: () => ({
     msg: 'Welcome to Brasstory.js App',
     dialog: false,
+    headers: [
+      {
+        text: 'Item nr',
+        align: 'left',
+        sortable: false,
+        value: 'nr'
+      },
+      {
+        text: 'Type', value: 'type'
+      },
+      {
+        text: 'Model', value: 'model'
+      },
+      {
+        text: 'Size', value: 'size'
+      },
+      {
+        text: 'Quality', value: 'quality'
+      },
+      {
+        text: 'Loaction', value: 'location'
+      }
+    ],
     dropdown_types: ['Jacket', 'Trousers', 'Hat'],
     dropdown_models: ['Standard', 'Woman C', 'Woman D'],
     dropdown_sizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '36', '38', '40', '42'],

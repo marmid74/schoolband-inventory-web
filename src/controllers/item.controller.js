@@ -48,6 +48,8 @@ const handleError = (res, err, errMessage) => {
 export async function create (req,res) {
     console.log("EndpointAPI: create");
     let countItems = 0;
+    let prefix = '';
+
     console.log('body:', req.body);
 
     if ( (req.body.size != null) && (req.body.type != null) ) {
@@ -57,7 +59,7 @@ export async function create (req,res) {
         };
         console.log('Searchobj: ', filterObj);
         console.log('Type : ', req.body.type);
-
+        
         try {
             let dbLookUp =  await Item.find(filterObj)
             console.log('dbLookUp result:', dbLookUp);
