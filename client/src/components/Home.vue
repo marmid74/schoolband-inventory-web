@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
       fixed
@@ -29,17 +29,13 @@
       <v-toolbar-title>Brasstory</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
+      <v-container fluid>
         <v-layout>
-          <v-flex>
             <bitems> </bitems>
-            <v-btn slot="activator" icon large href="https://codepen.io/johnjleider/pen/rJdVMq" target="_blank">
-                <v-icon large>mdi-codepen</v-icon>
-            </v-btn>
-          </v-flex>
         </v-layout>
       </v-container>
     </v-content>
+    <edit-bitems></edit-bitems>
     <v-footer color="indigo" app>
       <span class="white--text">&copy; Brasstory 2019</span>
     </v-footer>
@@ -48,11 +44,12 @@
 
 <script>
 import Bitems from './Bitems.vue'
-// import EditBitems from './EditBitems.vue'
+import EditBitems from './EditBitems.vue'
 export default {
   name: 'Home-brasstory',
   components: {
-    Bitems
+    Bitems,
+    EditBitems
   },
   data: () => ({
     drawer: null
