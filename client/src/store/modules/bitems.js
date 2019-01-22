@@ -42,6 +42,21 @@ const actions = {
       .catch(() => {
         commit('showError', 'Error: failed in Vue axios post')
       })
+  },
+  async updateItem ({ commit }, payload) {
+    console.log('updateItem db with axios: ', payload[0].id)
+    await Vue.axios.put('/items/' + payload[0].id, payload)
+      .then((resp) => {
+        console.log('response from db: ', resp)
+        if (resp.status === 200) {
+          commit('showResponse', resp)
+        } else {
+          commit('showError', resp)
+        }
+      })
+      .catch(() => {
+        commit('showError', 'Error: failed in Vue axios put')
+      })
   }
 }
 

@@ -30,9 +30,7 @@
     </v-toolbar>
     <v-content>
       <v-container fluid>
-        <v-layout>
-            <bitems> </bitems>
-        </v-layout>
+        <bitems> </bitems>
       </v-container>
     </v-content>
     <edit-bitems></edit-bitems>
@@ -44,12 +42,10 @@
 
 <script>
 import Bitems from './Bitems.vue'
-import EditBitems from './EditBitems.vue'
 export default {
   name: 'Home-brasstory',
   components: {
-    Bitems,
-    EditBitems
+    Bitems
   },
   data: () => ({
     drawer: null
