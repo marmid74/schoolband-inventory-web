@@ -1,10 +1,12 @@
 <template>
   <div>
-    <edit-bitems v-if="addNewItem"></edit-bitems>
     <v-card style="width: 100%;">
       <v-flex xs12 sm6 offset-sm3>
         <v-btn @click="getData" color="primary">Get data</v-btn>
-        <v-btn @click="addNewItem = !addNewItem">Add new</v-btn>
+        <edit-bitems
+          :initialValue="valueEmit"
+          @update-value-by-child="updateParentValue"
+        />
       </v-flex>
       <v-flex xs12 sm6 md4>
         <h2>Results</h2>
@@ -67,14 +69,14 @@ export default {
         text: 'Loaction', align: 'center', value: 'location'
       }
     ],
-    item_id: '',
-    item_type: '',
-    model: '',
-    size: '',
-    quality: '',
-    location: '',
-    payload: {},
-    addNewItem: false
+    valueEmit: {
+      nr: '',
+      type: '',
+      model: '',
+      size: '',
+      quality: '',
+      location: ''
+    }
   }),
   computed: {
     dbResponse () {
@@ -85,29 +87,32 @@ export default {
     }
   },
   methods: {
+    addNew: function () {
+      console.log('Bitem AddNew object: ', this.valueEmit)
+    },
     getData: function () {
       this.$store.dispatch('getData')
     },
-    activateNew: function () {
-      this.dialog = true
-      console.log('Bitem: Opend dialog box for create new item', this.dialog)
-    },
     updateItem (item) {
-      console.log('update item._id: ', item._id)
-      this.payload = {
-        id: item._id,
+      console.log('Bitem. update item._id: ', item._id)
+      this.valueEmit = {
+        _id: item._id,
         nr: item.nr,
         type: item.type,
         model: item.model,
         size: item.size,
         quality: item.quality,
-        location: item.location
+        location: item.location,
+        update: true
       }
-      console.log('Bitems.vue: Update item to db:', this.payload)
-      this.$store.dispatch('updateItem', [this.payload])
+      console.log('Bitem. send this to EditItems: ', this.valueEmit)
+      this.openDialog = true
+    },
+    updateParentValue (newValue) {
+      console.log('new value', newValue)
+      this.valueEmit = newValue
     }
   }
-
 }
 </script>
 

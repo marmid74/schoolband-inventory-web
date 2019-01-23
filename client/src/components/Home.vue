@@ -33,7 +33,6 @@
         <bitems> </bitems>
       </v-container>
     </v-content>
-    <edit-bitems></edit-bitems>
     <v-footer color="indigo" app>
       <span class="white--text">&copy; Brasstory 2019</span>
     </v-footer>

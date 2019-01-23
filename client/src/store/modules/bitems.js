@@ -44,8 +44,8 @@ const actions = {
       })
   },
   async updateItem ({ commit }, payload) {
-    console.log('updateItem db with axios: ', payload[0].id)
-    await Vue.axios.put('/items/' + payload[0].id, payload)
+    console.log('Store bitems - updateItem db with axios: ', payload[0]._id)
+    await Vue.axios.put('/items/' + payload[0]._id, payload)
       .then((resp) => {
         console.log('response from db: ', resp)
         if (resp.status === 200) {
