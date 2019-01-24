@@ -80,7 +80,8 @@ export default {
   }),
   computed: {
     dbResponse () {
-      let temp = this.$store.getters.dbResponse
+      let temp = []
+      temp = this.$store.getters.dbResponse
       console.log('dbResonse: ', temp)
       return temp
       // return this.$store.getters.dbResult

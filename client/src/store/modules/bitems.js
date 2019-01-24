@@ -18,9 +18,9 @@ const actions = {
     console.log('get data from db with axios')
     await Vue.axios.get('/items/')
       .then((resp) => {
-        console.log('response from db: ', resp)
+        console.log('Bitesm Store get - response from db: ', resp)
         if (resp.status === 200) {
-          commit('showResponse', resp)
+          commit('updatedbResponse', resp)
         } else {
           commit('showError', resp)
         }
@@ -32,7 +32,7 @@ const actions = {
   async createNewItem ({ commit }, payload) {
     await Vue.axios.post('/items/', payload)
       .then((resp) => {
-        console.log('response from db: ', resp)
+        console.log('Bitems Store create - response from db: ', resp)
         if (resp.status === 200) {
           commit('showResponse', resp)
         } else {
@@ -61,12 +61,15 @@ const actions = {
 }
 
 const mutations = {
-  showResponse (state, resp) {
+  updatedbResponse (state, resp) {
     state.dbResponse = resp.data
-    console.log('New State of dbResponse: ', state.dbResponse)
+    console.log('Bitems Store - New State of dbResponse: ', state.dbResponse)
+  },
+  showResponse (state, resp) {
+    console.log('Bitems Store - Current State dbResponse: ', state.dbResponse)
   },
   showError (resp) {
-    console.log('show Error: ', resp)
+    console.log('Bitems Store - show Error: ', resp)
   }
 }
 
