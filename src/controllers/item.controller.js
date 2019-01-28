@@ -45,6 +45,7 @@ const handleError = (res, err, errMessage) => {
 
 }
 */
+// POST
 export async function create (req,res) {
     console.log("EndpointAPI: create");
     let countItems = 0;
@@ -137,11 +138,15 @@ export function create (req,res) {
     }
 }
 */
+// PUT
 export function findByIdAndUpdate(req, res){
-    console.log("EndpointAPI: findByIdAndUpdate");
+    console.log("EndpointAPI: findByIdAndUpdate: ", req.body);
     Item.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {
         if(err) return res.status(500).send(err);
-        return res.status(200).send(items);
+        return res.status(200).send({'message': 'Successfully updated item',
+                                     'inputdata': req.body,
+                                     'body': items
+                                    });
     })
 }
 

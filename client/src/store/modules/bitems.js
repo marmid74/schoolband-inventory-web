@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
   async getData ({ commit }) {
-    console.log('get data from db with axios')
+    console.log('Bitesm store - get data from db with axios')
     await Vue.axios.get('/items/')
       .then((resp) => {
         console.log('Bitesm Store get - response from db: ', resp)
@@ -30,11 +30,13 @@ const actions = {
       })
   },
   async createNewItem ({ commit }, payload) {
+    console.log('Store Create Bitems ')
     await Vue.axios.post('/items/', payload)
       .then((resp) => {
-        console.log('Bitems Store create - response from db: ', resp)
+        console.log('response from db: ', resp)
         if (resp.status === 200) {
-          commit('showResponse', resp)
+          console.log('Item saved to db: ', resp.data.body)
+          commit('addItemtoState', resp)
         } else {
           commit('showError', resp)
         }
@@ -44,8 +46,9 @@ const actions = {
       })
   },
   async updateItem ({ commit }, payload) {
-    console.log('Store bitems - updateItem db with axios: ', payload[0]._id)
-    await Vue.axios.put('/items/' + payload[0]._id, payload)
+    console.log('Store Update Items')
+    console.log('Store UpdateItems - updateItem db with axios: ', payload[0]._id)
+    await Vue.axios.put('/items/' + payload[0]._id, payload[0])
       .then((resp) => {
         console.log('response from db: ', resp)
         if (resp.status === 200) {
@@ -63,13 +66,17 @@ const actions = {
 const mutations = {
   updatedbResponse (state, resp) {
     state.dbResponse = resp.data
-    console.log('Bitems Store - New State of dbResponse: ', state.dbResponse)
+    console.log('Bitems Store - Update State of dbResponse: ', state.dbResponse)
   },
-  showResponse (state, resp) {
-    console.log('Bitems Store - Current State dbResponse: ', state.dbResponse)
+  addItemtoState (state, resp) {
+    state.dbResponse.push(resp.data.body)
+    console.log('Bitems Store - Adds new item to state: ', state.dbResponse)
+  },
+  showResponse (resp) {
+    console.log('Bitems store - Show OK db response: ', resp)
   },
   showError (resp) {
-    console.log('Bitems Store - show Error: ', resp)
+    console.log('Bitems Store - Show Error db response: ', resp)
   }
 }
 

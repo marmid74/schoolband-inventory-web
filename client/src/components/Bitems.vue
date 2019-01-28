@@ -23,13 +23,17 @@
           <td>{{ row.item.quality}}</td>
           <td>{{ row.item.location }}</td>
           <td class="justify-center layout px-0">
-            <v-icon
+            <update-bitems
+              :initialValue="row.item"
+               @update-value-by-child="updateParentValue"
+            />
+            <!-- v-icon
               small
               class="mr-2"
-              @click="updateItem(row.item)"
+              @click="$emit('update-value-by-parent',row.item)"
             >
               edit
-            </v-icon>
+            </v-icon -->
           </td>
         </template>
       </v-data-table>
@@ -39,10 +43,13 @@
 
 <script>
 import EditBitems from './EditBitems.vue'
+import UpdateBitems from './UpdateBitems.vue'
+import { EventBus } from '../event-bus.js'
 export default {
   name: 'BrasstoryItems',
   components: {
-    EditBitems
+    EditBitems,
+    UpdateBitems
   },
   data: () => ({
     msg: 'Welcome to Brasstory.js App',
@@ -76,7 +83,8 @@ export default {
       size: '',
       quality: '',
       location: ''
-    }
+    },
+    dialog: false
   }),
   computed: {
     dbResponse () {
@@ -103,11 +111,12 @@ export default {
         model: item.model,
         size: item.size,
         quality: item.quality,
-        location: item.location,
-        update: true
+        location: item.location
       }
-      console.log('Bitem. send this to EditItems: ', this.valueEmit)
-      this.openDialog = true
+      this.dialog = true
+      this.$emit('update-value-by-parent', item)
+      EventBus.$emit('i-got-clikced', this.dialog)
+      console.log('Bitem. pass data to EditItems: ', this.valueEmit)
     },
     updateParentValue (newValue) {
       console.log('new value', newValue)
