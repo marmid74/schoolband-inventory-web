@@ -4,8 +4,7 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-btn @click="getData" color="primary">Get data</v-btn>
         <edit-bitems
-          :initialValue="valueEmit"
-          @update-value-by-child="updateParentValue"
+          :initialValue="{}"
         />
       </v-flex>
       <v-flex xs12 sm6 md4>
@@ -22,18 +21,11 @@
           <td>{{ row.item.size }}</td>
           <td>{{ row.item.quality}}</td>
           <td>{{ row.item.location }}</td>
-          <td class="justify-center layout px-0">
+          <td class="justify-center layout  px-0 py-0">
             <update-bitems
               :initialValue="row.item"
                @update-value-by-child="updateParentValue"
             />
-            <!-- v-icon
-              small
-              class="mr-2"
-              @click="$emit('update-value-by-parent',row.item)"
-            >
-              edit
-            </v-icon -->
           </td>
         </template>
       </v-data-table>
@@ -44,7 +36,7 @@
 <script>
 import EditBitems from './EditBitems.vue'
 import UpdateBitems from './UpdateBitems.vue'
-import { EventBus } from '../event-bus.js'
+// import { EventBus } from '../event-bus.js'
 export default {
   name: 'BrasstoryItems',
   components: {
@@ -96,27 +88,8 @@ export default {
     }
   },
   methods: {
-    addNew: function () {
-      console.log('Bitem AddNew object: ', this.valueEmit)
-    },
     getData: function () {
       this.$store.dispatch('getData')
-    },
-    updateItem (item) {
-      console.log('Bitem. update item._id: ', item._id)
-      this.valueEmit = {
-        _id: item._id,
-        nr: item.nr,
-        type: item.type,
-        model: item.model,
-        size: item.size,
-        quality: item.quality,
-        location: item.location
-      }
-      this.dialog = true
-      this.$emit('update-value-by-parent', item)
-      EventBus.$emit('i-got-clikced', this.dialog)
-      console.log('Bitem. pass data to EditItems: ', this.valueEmit)
     },
     updateParentValue (newValue) {
       console.log('new value', newValue)

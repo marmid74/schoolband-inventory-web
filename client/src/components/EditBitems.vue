@@ -12,12 +12,6 @@
           </v-card-title>
           <v-container id="dropdown-data" grid-list-sm class="pa-4">
             <v-layout row wrap>
-              <v-flex>
-                <p> Intial Value </p>
-                {{initialValue}}
-                <p> Child value </p>
-                {{valueEmit}}
-              </v-flex>
               <v-flex xs12 sm4>
                 <p>Uniform type</p>
                 <v-overflow-btn
@@ -101,19 +95,12 @@ export default {
       // return this.$store.getters.dbResult
     }
   },
-  created: function () {
-    console.log('EditItems received object: ', this.initialValue)
-    console.log('EditItems stored object: ', this.valueEmit)
-  },
   methods: {
     createNewItem: function () {
       console.log('EditBitems.vue: createNewItem', this.valueEmit)
       this.dialog = false
       this.$store.dispatch('createNewItem', this.valueEmit)
-    },
-    updateItem (item) {
-      console.log('Bitems.vue: Update item to db:', this.valueEmit)
-      this.$store.dispatch('updateItem', [this.valueEmit])
+      this.valueEmit = {}
     }
   }
 

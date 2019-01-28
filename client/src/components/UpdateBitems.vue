@@ -110,13 +110,8 @@ export default {
       // return this.$store.getters.dbResult
     }
   },
-  created: function () {
-    // this.valueEmit = this.initialValue.valueEmit
-    // this.dialog = this.initialValue.dialog
-  },
   methods: {
     updateItem (item) {
-      // this.valueEmit = this.initialValue
       this.dialog = false
       console.log('UpdateBitems: Update item to db:', this.valueEmit)
       this.$store.dispatch('updateItem', [this.valueEmit])
