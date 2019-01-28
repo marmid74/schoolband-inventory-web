@@ -25,6 +25,7 @@
                     label="Uniform type"
                     target="#dropdown-data"
                     v-model="valueEmit.type"
+                    @input="$emit('update-value-by-child', valueEmit)"
                 ></v-overflow-btn>
               </v-flex>
               <v-flex xs12 sm4>

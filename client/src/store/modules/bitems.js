@@ -29,7 +29,7 @@ const actions = {
         commit('showError', 'Error: failed in Vue axios get')
       })
   },
-  async createNewItem ({ commit }, payload) {
+  async addNewItem ({ commit }, payload) {
     console.log('Store Create Bitems ')
     await Vue.axios.post('/items/', payload)
       .then((resp) => {

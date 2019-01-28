@@ -8,7 +8,7 @@
           <v-card-title
           class="grey lighten-4 py-4 title"
           >
-          Create new inventory item
+          Add new inventory item
           </v-card-title>
           <v-container id="dropdown-data" grid-list-sm class="pa-4">
             <v-layout row wrap>
@@ -63,7 +63,7 @@
               <v-btn flat color="primary">More</v-btn>
               <v-spacer></v-spacer>
               <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-              <v-btn flat @click="createNewItem">Save</v-btn>
+              <v-btn flat @click="addNewItem">Save</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -72,7 +72,7 @@
 
 <script>
 export default {
-  name: 'EditBitems',
+  name: 'AddBitems',
   data () {
     return {
       valueEmit: this.initialValue,
@@ -96,10 +96,10 @@ export default {
     }
   },
   methods: {
-    createNewItem: function () {
-      console.log('EditBitems.vue: createNewItem', this.valueEmit)
+    addNewItem: function () {
+      console.log('AddBitems.vue: addNewItem', this.valueEmit)
       this.dialog = false
-      this.$store.dispatch('createNewItem', this.valueEmit)
+      this.$store.dispatch('addNewItem', this.valueEmit)
       this.valueEmit = {}
     }
   }

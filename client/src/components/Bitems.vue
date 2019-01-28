@@ -3,7 +3,7 @@
     <v-card style="width: 100%;">
       <v-flex xs12 sm6 offset-sm3>
         <v-btn @click="getData" color="primary">Get data</v-btn>
-        <edit-bitems
+        <add-bitems
           :initialValue="{}"
         />
       </v-flex>
@@ -34,13 +34,13 @@
 </template>
 
 <script>
-import EditBitems from './EditBitems.vue'
+import AddBitems from './AddBitems.vue'
 import UpdateBitems from './UpdateBitems.vue'
 // import { EventBus } from '../event-bus.js'
 export default {
   name: 'BrasstoryItems',
   components: {
-    EditBitems,
+    AddBitems,
     UpdateBitems
   },
   data: () => ({
