@@ -80,16 +80,17 @@ export default {
   }),
   computed: {
     dbResponse () {
-      let temp = []
-      temp = this.$store.getters.dbResponse
-      console.log('dbResonse: ', temp)
-      return temp
+      let db = []
+      db = this.$store.getters.dbResponse
+      console.log('dbResonse: ', db)
+      return db
       // return this.$store.getters.dbResult
     }
   },
   methods: {
     getData: function () {
       this.$store.dispatch('getData')
+      this.$store.dispatch('getConfigUniform')
     },
     updateParentValue (newValue) {
       console.log('new value', newValue)

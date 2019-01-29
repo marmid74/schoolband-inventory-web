@@ -22,3 +22,19 @@ export async function create (req,res) {
       return res.status(500).send(err);
   }
 }
+
+export function find(req,res) {   
+  console.log("ConfigUniform: find");
+  if (req.body){
+    ConfigUniform.find(req.body, (err, configuniforms) => {
+          if(err) return res.status(500).send(err);         
+          return res.status(200).send(configuniforms);
+      });
+  } else {
+    ConfigUniform.find((err, configuniforms) => {
+          if(err) return res.status(500).send(err);
+          
+          return res.status(200).send(configuniforms);
+      });
+  }
+}

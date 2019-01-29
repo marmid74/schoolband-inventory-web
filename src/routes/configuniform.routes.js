@@ -12,7 +12,7 @@ router.post('/api/config/uniforms', configuniforms.create);
 
 
 //find all
-// router.get('/api/items', items.find);
+ router.get('/api/config/uniforms', configuniforms.find);
 
 //List all items
 // router.get('/api/items', items.listAll)

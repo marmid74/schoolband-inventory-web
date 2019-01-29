@@ -104,10 +104,11 @@ export default {
     initialValue: Object
   },
   computed: {
-    dbResponse () {
-      let temp = this.$store.getters.dbResponse
-      console.log('dbResonse: ', temp)
-      return temp
+    dbConfig () {
+      let config = []
+      config = this.$store.getters.dbConfigUniform
+      console.log('configUniform: ', config)
+      return config
       // return this.$store.getters.dbResult
     }
   },
