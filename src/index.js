@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import * as config from './config';
 import items from './routes/item.routes';
 import users from './routes/user.routes';
+import configuniforms from './routes/configuniform.routes'
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -38,6 +39,7 @@ app.get('/', function(req, res){
 // Set up routes
 app.use('/', items);
 app.use('/', users)
+app.use('/', configuniforms)
 
 // listen for requests
 app.listen(config.port, () => {
