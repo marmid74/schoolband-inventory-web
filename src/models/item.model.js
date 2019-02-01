@@ -4,11 +4,9 @@ let Schema = mongoose.Schema;
 
 let ItemSchema = new Schema({
   nr: { type: String, required: true },
-  type: { type: String, required: true },
-  model: { type: String, required: false },
-  size: { type: String, required: true  },
-  quality: { type: String, required: false },
-  location: {type: String, required: false}
+  itemtype: { type: String, required: true },
+  location: {type: String, required: false},  
+  uniform: {type: Uniform, reqired: false}
 });
 
 export default mongoose.model('Item', ItemSchema);
