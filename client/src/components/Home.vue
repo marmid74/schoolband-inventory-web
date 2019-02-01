@@ -60,8 +60,11 @@ export default {
   props: {
     source: String
   },
+  beforeMount () {
+    console.log('Hook - beforeMount: this app doesnt exist yet, but it will soon!')
+  },
   mounted: function () {
-    console.log('Is user logged in?', this.isLoggedIn)
+    console.log('Hook - mounted: Is user logged in?', this.isLoggedIn)
     if (!this.isLoggedIn) {
       this.$router.push({path: '/login'})
     }

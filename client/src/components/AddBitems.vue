@@ -77,6 +77,7 @@ export default {
     return {
       valueEmit: this.initialValue,
       dialog: false,
+      // dropdown_types: this.ddType,
       dropdown_types: ['Jacket', 'Trousers', 'Hat'],
       dropdown_models: ['Standard', 'Woman C', 'Woman D'],
       dropdown_sizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '36', '38', '40', '42'],
@@ -85,17 +86,40 @@ export default {
     }
   },
   props: {
-    initialValue: Object
+    initialValue: Object,
+    ddType: Array
+  },
+  created () {
+    this.$store.dispatch('getConfigUniform')
+    this.configUniform = this.$store.getters.dbConfigUniform
+    console.log('AddBitem Hook created - configPropertyObj: ', this.configUniform)
+  },
+  propertyComputed () {
+    console.log('I change when this.property changes.')
+    return this.property
   },
   computed: {
-    dbResponse () {
-      let temp = this.$store.getters.dbResponse
-      console.log('dbResonse: ', temp)
-      return temp
+    dbUniformConfig () {
+      let ddObj = {}
+      let configObj = this.$store.getters.dbConfigUniform
+      ddObj.model = configObj[0].itemtypes.itemtype.model
+      console.log('MODEL', ddObj.model)
+      return true
       // return this.$store.getters.dbResult
     }
   },
   methods: {
+    populateDropDown: function () {
+      let items = this.$store.getters.dbConfigUniform[0].itemtypes
+      let modellist = []
+      for (let item = 0; item < items.length; item++) {
+        console.log('Value: ', items)
+        modellist.push(items[item].itemtype.name)
+      }
+      this.ddType = modellist
+      console.log('AddBitem method populateDropDown: ', this.ddType)
+      return this.ddType
+    },
     addNewItem: function () {
       console.log('AddBitems.vue: addNewItem', this.valueEmit)
       this.dialog = false

@@ -22,7 +22,7 @@
           <td>{{ row.item.quality}}</td>
           <td>{{ row.item.location }}</td>
           <td class="justify-center layout  px-0 py-0">
-            <update-bitems
+            <update-bitems bitemsComp :key="tableKey"
               :initialValue="row.item"
                @update-value-by-child="updateParentValue"
             />
@@ -45,6 +45,7 @@ export default {
   },
   data: () => ({
     msg: 'Welcome to Brasstory.js App',
+    tableKey: 0,
     headers: [
       {
         text: 'Item nr',
@@ -78,26 +79,38 @@ export default {
     },
     dialog: false
   }),
+  beforeCreate () {
+    console.log('Nothing gets called before me!, tablekey: ', this.tableKey)
+  },
+  created () {
+    this.property = 'Example property update.'
+    console.log('Bitems Hook created - propertyComputed will update, as this.property is now reactive.')
+    this.$store.dispatch('getData')
+    this.$store.dispatch('getConfigUniform')
+  },
   computed: {
     dbResponse () {
-      let db = []
-      db = this.$store.getters.dbResponse
-      console.log('dbResonse: ', db)
-      return db
-      // return this.$store.getters.dbResult
+      return this.$store.getters.dbResponse
+    },
+    propertyComputed () {
+      console.log('I change when this.property changes.')
+      return this.property
     }
   },
   methods: {
     getData: function () {
+      console.log('getData is executed')
       this.$store.dispatch('getData')
       this.$store.dispatch('getConfigUniform')
     },
     updateParentValue (newValue) {
-      console.log('new value', newValue)
       this.valueEmit = newValue
+      this.tableKey += 1
+      console.log('table should be rendered tableKey: ', this.tableKey)
     }
   }
 }
+
 </script>
 
 <style>
