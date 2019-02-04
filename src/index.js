@@ -1,7 +1,7 @@
 import express from 'express';
 import chalk from 'chalk';
 import * as config from './config';
-import items from './routes/item.routes';
+import asset from './routes/asset.routes';
 import users from './routes/user.routes';
 import configuniforms from './routes/configuniform.routes'
 import http from 'http';
@@ -37,7 +37,7 @@ app.get('/', function(req, res){
  });
 
 // Set up routes
-app.use('/', items);
+app.use('/', asset);
 app.use('/', users)
 app.use('/', configuniforms)
 

@@ -1,12 +1,5 @@
-import Item from '../models/item.model';
+import Asset from '../models/asset.model';
 
-const handleError = (res, err, errMessage) => {
-    console.log(err);
-    if(err.kind === 'ObjectId') {
-      return res.status(404).send({ message: errMessage + err });                
-    }
-    return res.status(500).send({ message: errMessage + err });
-  };
 
 /* export function dummy(req,res){
     return res.status(200).send({message: 'Yep, api alive'});
@@ -46,46 +39,44 @@ const handleError = (res, err, errMessage) => {
 }
 */
 // POST
-export async function create (req,res) {
-    console.log("EndpointAPI: create");
+export async function createUniform (req,res) {
+    console.log("EndpointAPI: createUniform ", req.body.itemtype );
     let countItems = 0;
-    let prefix = '';
 
     console.log('body:', req.body);
+    
+    let filterObj = {           
+        // "uniform.itemtype": req.body.uniform.itemtype,
+        // "uniform.size": req.body.uniform.size
+        "assettype":  req.body.assettype        
+    };
+    console.log('Searchobj: ', filterObj);
+    
+    try {
+        let newAssetObj = new Asset(req.body);
+        let dbLookUp =  await Asset.find(filterObj)
+        console.log('dbLookUp result:', dbLookUp);
 
-    if ( (req.body.size != null) && (req.body.type != null) ) {
-        let filterObj = {
-            "size": req.body.size,
-            "type": req.body.type
-        };
-        console.log('Searchobj: ', filterObj);
-        console.log('Type : ', req.body.type);
-        
-        try {
-            let dbLookUp =  await Item.find(filterObj)
-            console.log('dbLookUp result:', dbLookUp);
+        countItems = (Object.keys(dbLookUp).length).toString();
+        console.log('Value of count: ', countItems);
+        let nextId = parseInt(countItems) + 1;
+        newAssetObj.nr = nextId.toString();
 
-            countItems = (Object.keys(dbLookUp).length).toString();
-            console.log('Value of count: ', countItems);
-
-            let newItemObj = new Item(req.body);
-            let nextId = parseInt(countItems) + 1;
-            newItemObj.nr = req.body.size + '-' + nextId.toString();
-            console.log('new obj to be saved', newItemObj);
-
-            let result = await newItemObj.save();
-            res.send({
-                message: 'Item saved successfully:',
-                body: result
-            });
-        } catch (err) {
-            console.log('Error in Create new item: ', err);
-            return res.status(500).send(err);
-        }
+        let result = await newAssetObj.save();
+        res.send({
+            message: 'Asset object saved successfully:',
+            body: result
+        });
+        console.log('new obj to be saved', newAssetObj);
+    } catch (err) {
+        console.log('Error in Create new asset type uniform: ', err);
+        return res.status(500).send(err);
     }
-     
 }
 
+export async function createInstrument (req,res) {
+    console.log("EndpointAPI: createInstrument ", req.body.itemtype );
+}
 
 
 //syncron
@@ -141,9 +132,9 @@ export function create (req,res) {
 // PUT
 export function findByIdAndUpdate(req, res){
     console.log("EndpointAPI: findByIdAndUpdate: ", req.body);
-    Item.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {
+    Asset.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {
         if(err) return res.status(500).send(err);
-        return res.status(200).send({'message': 'Successfully updated item',
+        return res.status(200).send({'message': 'Successfully updated asset',
                                      'inputdata': req.body,
                                      'body': items
                                     });
@@ -153,21 +144,21 @@ export function findByIdAndUpdate(req, res){
 
 export function findById(req,res){
     console.log("EndpointAPI: findById");
-    Item.findById(req.params.itemId, (err, Item) => {
+    Asset.findById(req.params.itemId, (err, item) => {
         if (err) return res.status(500).send(err);
-        return res.status(200).send(Item);
+        return res.status(200).send(item);
     });
 }
 
 export function find(req,res) {   
-    console.log("EndpointAPI: find");
+    console.log("EndpointAPI : find");
     if (req.body){
-        Item.find(req.body, (err, items) => {
+        Asset.find(req.body, (err, items) => {
             if(err) return res.status(500).send(err);         
             return res.status(200).send(items);
         });
     } else {
-        Item.find((err, items) => {
+        Asset.find((err, items) => {
             if(err) return res.status(500).send(err);
             
             return res.status(200).send(items);
@@ -179,7 +170,7 @@ export function find(req,res) {
 export function listAll(req, res){
     //List all items of a specific type from Db
     console.log("EndpointAPI: listAll");
-    Item.find()
+    Asset.find()
         .then(items => {
             console.log(items);
             res.send(items);
@@ -192,7 +183,7 @@ export function listAll(req, res){
 
 export function findByIdAndDelete(req, res){
     console.log("EndpointAPI: findByIdAndDelete");
-    Item.findByIdAndDelete(req.params.itemId, (err, items) => {
+    Asset.findByIdAndDelete(req.params.itemId, (err, items) => {
         if (err) return res.status(500).send(err);
         const response = {
             message: "Item successfully deleted",
