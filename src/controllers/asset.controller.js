@@ -1,43 +1,6 @@
 import Asset from '../models/asset.model';
 
 
-/* export function dummy(req,res){
-    return res.status(200).send({message: 'Yep, api alive'});
-}
-*/
-
-
-//asyncron
-/*export function create(req, res) {
-    console.log("Retur: " + req.body.type);
-    // Create and Save a new Item
-    if(!req.body) {
-      return res.status(400).send({ message: 'Item cannot be empty....' });
-    }
-
-    new Item({
-        id: req.body.id,
-        type: req.body.type,
-        model: req.body.model,
-        size: req.body.size,
-        quality: req.body.quality,
-        location: req.body.location 
-    }).save()
-      .then((saved) => {
-        console.log('Item saved:', saved);
-        res.send({
-            message: 'Item saved successfully'
-        });
-       })
-       .catch((error) => {
-        console.log(error);
-        res.status(500).send({
-          message: 'There was an error saving this item.'
-        });
-      });
-
-}
-*/
 // POST
 export async function createUniform (req,res) {
     console.log("EndpointAPI: createUniform ", req.body.itemtype );
@@ -76,59 +39,40 @@ export async function createUniform (req,res) {
 
 export async function createInstrument (req,res) {
     console.log("EndpointAPI: createInstrument ", req.body.itemtype );
-}
-
-
-//syncron
-/*
-export function create (req,res) {
-    console.log("EndpointAPI: create");
-    let countItems = 0;
     console.log('body:', req.body);
+    
+    let filterObj = {           
+        "assettype":  req.body.assettype        
+    };
+    console.log('Searchobj: ', filterObj);
+    
+    try {
+        let newAssetObj = new Asset(req.body);
 
-    if ( (req.body.size != null) && (req.body.type != null) ) {
-        let filterObj = {
-            "size": req.body.size,
-            "type": req.body.type
-        };
-        console.log('Searchobj: ', filterObj);
-        console.log('Type : ', req.body.type);
-        Item.find(filterObj)
-            .then(items => {
-                console.log('result search items: ', items);       
-                countItems = (Object.keys(items).length).toString();
-                console.log('Value of count: ', countItems);
-                let newItemObj = new Item(req.body);
-                let nextId = parseInt(countItems) + 1;
-                newItemObj.nr = req.body.size + '-' + nextId.toString();
-                console.log('new obj ', newItemObj);
-                newItemObj.save()
-                    .then((saved) => {
-                        console.log('Item saved:', saved);
-                        res.send({
-                            message: 'Item saved successfully:',
-                            body: saved
-                        });
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        res.status(500).send({
-                        message: 'There was an error saving this item.'
-                        });
-                    });
-            })
-            .catch((err) => {
-                console.log("Error in fetching items");
-                handleError(res,err, "There was an error retrieving items");
-            });
-    } else {
-        res.status(500).send({
-            message: 'Size and Type of item required. Item not saved.',
-            body: req.body
-            });
+        let result = await newAssetObj.save();
+        res.send({
+            message: 'Instrument object saved successfully:',
+            body: result
+        });
+        console.log('new obj to be saved', newAssetObj);
+    } catch (err) {
+        console.log('Error in Create new asset type instrument: ', err);
+        return res.status(500).send(err);
     }
 }
-*/
+
+export function getAll(req, res) {
+    console.log("EndpointAPI: getAll: ", req.body);
+    let filterObj = {
+        "assettype": req.url.split('/')[3]
+    }
+    console.log(filterObj)
+
+    Asset.find(filterObj, (err, asset) => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).send(asset);
+    });
+}
 // PUT
 export function findByIdAndUpdate(req, res){
     console.log("EndpointAPI: findByIdAndUpdate: ", req.body);
