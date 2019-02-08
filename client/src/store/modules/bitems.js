@@ -16,7 +16,7 @@ const getters = {
 const actions = {
   async getData ({ commit }) {
     console.log('Bitesm store - get data from db with axios')
-    await Vue.axios.get('/items/')
+    await Vue.axios.get('/asset/uniform/')
       .then((resp) => {
         console.log('Bitesm Store get - response from db: ', resp)
         if (resp.status === 200) {
@@ -31,7 +31,7 @@ const actions = {
   },
   async addNewItem ({ commit }, payload) {
     console.log('Store Create Bitems ')
-    await Vue.axios.post('/items/', payload)
+    await Vue.axios.post('/asset/uniform/', payload)
       .then((resp) => {
         console.log('response from db: ', resp)
         if (resp.status === 200) {

@@ -12,14 +12,14 @@ router.post('/api/asset', asset.dummy);
 router.post('/api/asset/uniform', asset.createUniform);
 
 
-//find all
-router.get('/api/asset/uniform', asset.find);
-
 //List all asset
-router.get('/api/asset/uniform', asset.listAll)
+router.get('/api/asset/uniform', asset.getAll)
+
+//find all 
+router.get('/api/asset/uniform', asset.findOne);
 
 //Find by one by id 
-router.get('/api/asset/uniform/:itemId', asset.findById);
+// router.get('/api/asset/uniform/:itemId', asset.findById);
 
 //Find by one by id and update, incl. req.body
 router.put('/api/asset/uniform/:itemId', asset.findByIdAndUpdate);

@@ -7,38 +7,66 @@ import Asset from '../models/asset.model';
 */
 
 
-//asyncron
-/*export function create(req, res) {
-    console.log("Retur: " + req.body.type);
-    // Create and Save a new Item
-    if(!req.body) {
-      return res.status(400).send({ message: 'Item cannot be empty....' });
-    }
+// Generic endpoints for asses objects
 
-    new Item({
-        id: req.body.id,
-        type: req.body.type,
-        model: req.body.model,
-        size: req.body.size,
-        quality: req.body.quality,
-        location: req.body.location 
-    }).save()
-      .then((saved) => {
-        console.log('Item saved:', saved);
-        res.send({
-            message: 'Item saved successfully'
-        });
-       })
-       .catch((error) => {
-        console.log(error);
-        res.status(500).send({
-          message: 'There was an error saving this item.'
-        });
-      });
-
+export function findOne(req,res) {   
+    console.log("EndpointAPI findOne: ", req.body);
+    let filterObj =  req.body;
+    Asset.find(filterObj, (err, asset) => {
+        if(err) return res.status(500).send(err);         
+        return res.status(200).send(asset);
+    }); 
 }
-*/
-// POST
+
+// PUT
+export function findByIdAndUpdate(req, res){
+    console.log("EndpointAPI: findByIdAndUpdate: ", req.body);
+    Asset.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, asset) => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).send({'message': 'Successfully updated asset',
+                                     'inputdata': req.body,
+                                     'body': asset
+                                    });
+    })
+}
+
+// get - no body filter by spilling url for uniform/instrument/note
+export function getAll(req,res) {   
+    console.log("EndpointAPI getAll: ", req.body);
+    let filterObj = {
+        "assettype": req.url.split('/')[3]
+    }
+    
+    Asset.find(filterObj, (err, asset) => {
+        if(err) return res.status(500).send(err);         
+        return res.status(200).send(asset);
+    }); 
+}
+
+
+export function findById(req,res){
+    console.log("EndpointAPI: findById");
+    Asset.findById(req.params.itemId, (err, item) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send(item);
+    });
+}
+
+
+
+export function findByIdAndDelete(req, res){
+    console.log("EndpointAPI: findByIdAndDelete");
+    Asset.findByIdAndDelete(req.params.itemId, (err, items) => {
+        if (err) return res.status(500).send(err);
+        const response = {
+            message: "Item successfully deleted",
+            id: items._id
+        };
+        return res.status(200).send(response);
+    });
+}
+
+// POST  CREATE UNIFORM
 export async function createUniform (req,res) {
     console.log("EndpointAPI: createUniform ", req.body.itemtype );
     let countItems = 0;
@@ -46,8 +74,6 @@ export async function createUniform (req,res) {
     console.log('body:', req.body);
     
     let filterObj = {           
-        // "uniform.itemtype": req.body.uniform.itemtype,
-        // "uniform.size": req.body.uniform.size
         "assettype":  req.body.assettype        
     };
     console.log('Searchobj: ', filterObj);
@@ -74,121 +100,8 @@ export async function createUniform (req,res) {
     }
 }
 
+
+// POST  CREATE INSTRUMENT
 export async function createInstrument (req,res) {
     console.log("EndpointAPI: createInstrument ", req.body.itemtype );
-}
-
-
-//syncron
-/*
-export function create (req,res) {
-    console.log("EndpointAPI: create");
-    let countItems = 0;
-    console.log('body:', req.body);
-
-    if ( (req.body.size != null) && (req.body.type != null) ) {
-        let filterObj = {
-            "size": req.body.size,
-            "type": req.body.type
-        };
-        console.log('Searchobj: ', filterObj);
-        console.log('Type : ', req.body.type);
-        Item.find(filterObj)
-            .then(items => {
-                console.log('result search items: ', items);       
-                countItems = (Object.keys(items).length).toString();
-                console.log('Value of count: ', countItems);
-                let newItemObj = new Item(req.body);
-                let nextId = parseInt(countItems) + 1;
-                newItemObj.nr = req.body.size + '-' + nextId.toString();
-                console.log('new obj ', newItemObj);
-                newItemObj.save()
-                    .then((saved) => {
-                        console.log('Item saved:', saved);
-                        res.send({
-                            message: 'Item saved successfully:',
-                            body: saved
-                        });
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        res.status(500).send({
-                        message: 'There was an error saving this item.'
-                        });
-                    });
-            })
-            .catch((err) => {
-                console.log("Error in fetching items");
-                handleError(res,err, "There was an error retrieving items");
-            });
-    } else {
-        res.status(500).send({
-            message: 'Size and Type of item required. Item not saved.',
-            body: req.body
-            });
-    }
-}
-*/
-// PUT
-export function findByIdAndUpdate(req, res){
-    console.log("EndpointAPI: findByIdAndUpdate: ", req.body);
-    Asset.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {
-        if(err) return res.status(500).send(err);
-        return res.status(200).send({'message': 'Successfully updated asset',
-                                     'inputdata': req.body,
-                                     'body': items
-                                    });
-    })
-}
-
-
-export function findById(req,res){
-    console.log("EndpointAPI: findById");
-    Asset.findById(req.params.itemId, (err, item) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).send(item);
-    });
-}
-
-export function find(req,res) {   
-    console.log("EndpointAPI : find");
-    if (req.body){
-        Asset.find(req.body, (err, items) => {
-            if(err) return res.status(500).send(err);         
-            return res.status(200).send(items);
-        });
-    } else {
-        Asset.find((err, items) => {
-            if(err) return res.status(500).send(err);
-            
-            return res.status(200).send(items);
-        });
-    }
-}
-
-//not in use --- below find in item.routes.js
-export function listAll(req, res){
-    //List all items of a specific type from Db
-    console.log("EndpointAPI: listAll");
-    Asset.find()
-        .then(items => {
-            console.log(items);
-            res.send(items);
-        })
-        .catch((err) => {
-            console.log("Error in fetching items");
-            handleError(res,err, "There was an error retrieving items");
-        });
-}
-
-export function findByIdAndDelete(req, res){
-    console.log("EndpointAPI: findByIdAndDelete");
-    Asset.findByIdAndDelete(req.params.itemId, (err, items) => {
-        if (err) return res.status(500).send(err);
-        const response = {
-            message: "Item successfully deleted",
-            id: items._id
-        };
-        return res.status(200).send(response);
-    });
 }
