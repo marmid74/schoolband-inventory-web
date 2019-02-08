@@ -13,15 +13,16 @@ router.post('/api/asset/uniform', asset.createUniform);
 
 // Instrument
 router.post('api/asset/instrument',asset.createInstrument)
+
 //find all
 router.get('/api/asset/uniform', asset.getAll);
 router.get('/api/asset/instrument', asset.getAll);
 
-//List all asset
-router.get('/api/asset/uniform', asset.listAll)
+//find all 
+router.get('/api/asset/uniform', asset.findOne);
 
 //Find by one by id 
-router.get('/api/asset/uniform/:itemId', asset.findById);
+// router.get('/api/asset/uniform/:itemId', asset.findById);
 
 //Find by one by id and update, incl. req.body
 router.put('/api/asset/uniform/:itemId', asset.findByIdAndUpdate);
@@ -32,8 +33,5 @@ router.delete('/api/asset/uniform/:itemId', asset.findByIdAndDelete);
 // ToDo: NOTE
 
 
-// ToDo: INSTRUMENT
-// Create a new instrument
-router.post('/api/asset/instrument', asset.createInstrument);
 
 export default router;
