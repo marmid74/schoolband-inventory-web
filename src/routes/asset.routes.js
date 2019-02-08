@@ -11,9 +11,11 @@ router.post('/api/asset', asset.dummy);
 // Create a new uniform, incl. req.body
 router.post('/api/asset/uniform', asset.createUniform);
 
-
+// Instrument
+router.post('api/asset/instrument',asset.createInstrument)
 //find all
-router.get('/api/asset/uniform', asset.find);
+router.get('/api/asset/uniform', asset.getAll);
+router.get('/api/asset/instrument', asset.getAll);
 
 //List all asset
 router.get('/api/asset/uniform', asset.listAll)

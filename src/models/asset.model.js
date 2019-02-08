@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 // import Uniform from './uniform.model';
+//import Instrument from './instrument.model';
 
 let Schema = mongoose.Schema;
 
@@ -18,6 +19,7 @@ let AssetSchema = new Schema({
     model: { type: String, required: false },
     quality: { type: String, required: false }
   }
+  //instrument: [{type: Schema.Types.ObjectId, ref: 'Instrument',required: false}]
 });
 
 export default mongoose.model('Asset', AssetSchema);
