@@ -1,14 +1,20 @@
 <template>
-  <div class="editItem">
-      <v-card-text style="height: 100px; position: relative">
-      </v-card-text>
+  <div class="updateUniform">
+      <!--v-card-text style="height: 100px; position: relative">
+      </v-card-text -->
       <v-dialog v-model="dialog" width="800px">
-        <v-btn slot="activator">Add new</v-btn>
+        <v-icon
+          small
+          class="mr-2"
+          slot="activator"
+        >
+          edit
+        </v-icon>
         <v-card>
           <v-card-title
           class="grey lighten-4 py-4 title"
           >
-          Add new inventory item
+          Update uniform
           </v-card-title>
           <v-container id="dropdown-data" grid-list-sm class="pa-4">
             <v-layout row wrap>
@@ -19,6 +25,7 @@
                     label="Uniform type"
                     target="#dropdown-data"
                     v-model="valueEmit.type"
+                    @input="$emit('update-value-by-child', valueEmit)"
                 ></v-overflow-btn>
               </v-flex>
               <v-flex xs12 sm4>
@@ -63,7 +70,7 @@
               <v-btn flat color="primary">More</v-btn>
               <v-spacer></v-spacer>
               <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-              <v-btn flat @click="addNewItem">Save</v-btn>
+              <v-btn flat @click="updateItem">Save</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -71,13 +78,21 @@
 </template>
 
 <script>
+// import { EventBus } from '../event-bus.js'
+
+// EventBus.$on('i-got-clikced', parentdialog => {
+// this.valueEmit = this.initialValue.valueEmit
+// this.dialog = parentdialog
+// this.updateItem()
+// console.log('Update bitems. EventBus listning, parent dialog :', parentdialog)
+// })
+
 export default {
-  name: 'AddBitems',
+  name: 'UpdateUniform',
   data () {
     return {
       valueEmit: this.initialValue,
       dialog: false,
-      // dropdown_types: this.ddType,
       dropdown_types: ['Jacket', 'Trousers', 'Hat'],
       dropdown_models: ['Standard', 'Woman C', 'Woman D'],
       dropdown_sizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '36', '38', '40', '42'],
@@ -86,48 +101,24 @@ export default {
     }
   },
   props: {
-    initialValue: Object,
-    ddType: Array
-  },
-  created () {
-    this.$store.dispatch('getConfigUniform')
-    this.configUniform = this.$store.getters.dbConfigUniform
-    console.log('AddBitem Hook created - configPropertyObj: ', this.configUniform)
-  },
-  propertyComputed () {
-    console.log('I change when this.property changes.')
-    return this.property
+    initialValue: Object
   },
   computed: {
-    dbUniformConfig () {
-      let ddObj = {}
-      let configObj = this.$store.getters.dbConfigUniform
-      ddObj.model = configObj[0].itemtypes.itemtype.model
-      console.log('MODEL', ddObj.model)
-      return true
+    dbConfig () {
+      let config = []
+      config = this.$store.getters.dbConfigUniform
+      console.log('configUniform: ', config)
+      return config
       // return this.$store.getters.dbResult
     }
   },
   methods: {
-    populateDropDown: function () {
-      let items = this.$store.getters.dbConfigUniform[0].itemtypes
-      let modellist = []
-      for (let item = 0; item < items.length; item++) {
-        console.log('Value: ', items)
-        modellist.push(items[item].itemtype.name)
-      }
-      this.ddType = modellist
-      console.log('AddBitem method populateDropDown: ', this.ddType)
-      return this.ddType
-    },
-    addNewItem: function () {
-      console.log('AddBitems.vue: addNewItem', this.valueEmit)
+    updateItem (item) {
       this.dialog = false
-      this.$store.dispatch('addNewItem', this.valueEmit)
-      this.valueEmit = {}
+      console.log('UpdateUniform: Update item to db:', this.valueEmit)
+      this.$store.dispatch('updateItem', [this.valueEmit])
     }
   }
-
 }
 </script>
 

@@ -3,8 +3,8 @@
     <v-card style="width: 100%;">
       <v-flex xs12 sm6 offset-sm3>
         <v-btn @click="getData" color="primary">Get data</v-btn>
-        <add-bitems
-          :initialValue="{}"
+        <add-uniform
+          :initialValue= "{}"
         />
       </v-flex>
       <v-flex xs12 sm6 md4>
@@ -16,13 +16,13 @@
       >
         <template slot="items" slot-scope="row">
           <td>{{ row.item.nr }}</td>
-          <td>{{ row.item.type }}</td>
-          <td>{{ row.item.model }}</td>
-          <td>{{ row.item.size }}</td>
-          <td>{{ row.item.quality}}</td>
+          <td>{{ row.item.uniform.itemtype }}</td>
+          <td>{{ row.item.uniform.model }}</td>
+          <td>{{ row.item.uniform.size }}</td>
+          <td>{{ row.item.uniform.quality}}</td>
           <td>{{ row.item.location }}</td>
           <td class="justify-center layout  px-0 py-0">
-            <update-bitems bitemsComp :key="tableKey"
+            <update-uniform bitemsComp :key="tableKey"
               :initialValue="row.item"
                @update-value-by-child="updateParentValue"
             />
@@ -34,14 +34,14 @@
 </template>
 
 <script>
-import AddBitems from './AddBitems.vue'
-import UpdateBitems from './UpdateBitems.vue'
+import AddUniform from './AddUniform.vue'
+import UpdateUniform from './UpdateUniform.vue'
 // import { EventBus } from '../event-bus.js'
 export default {
   name: 'BrasstoryItems',
   components: {
-    AddBitems,
-    UpdateBitems
+    AddUniform,
+    UpdateUniform
   },
   data: () => ({
     msg: 'Welcome to Brasstory.js App',
@@ -70,12 +70,15 @@ export default {
       }
     ],
     valueEmit: {
-      nr: '',
-      type: '',
-      model: '',
-      size: '',
-      quality: '',
-      location: ''
+      'nr': '',
+      'assettype': 'uniform',
+      'location': '',
+      'uniform': {
+        'itemtype': '',
+        'model': '',
+        'size': '',
+        'quality': ''
+      }
     },
     dialog: false
   }),
@@ -84,7 +87,7 @@ export default {
   },
   created () {
     this.property = 'Example property update.'
-    console.log('Bitems Hook created - propertyComputed will update, as this.property is now reactive.')
+    console.log('Uniform Hook created - propertyComputed will update, as this.property is now reactive.')
     this.$store.dispatch('getData')
     this.$store.dispatch('getConfigUniform')
   },

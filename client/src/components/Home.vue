@@ -30,7 +30,7 @@
     </v-toolbar>
     <v-content>
       <v-container fluid>
-        <bitems> </bitems>
+        <uniform> </uniform>
       </v-container>
     </v-content>
     <v-footer color="indigo" app>
@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import Bitems from './Bitems.vue'
+import Uniform from './Uniform.vue'
 export default {
   name: 'Home-brasstory',
   components: {
-    Bitems
+    Uniform
   },
   data: () => ({
     drawer: null

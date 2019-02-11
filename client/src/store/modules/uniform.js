@@ -15,10 +15,10 @@ const getters = {
 
 const actions = {
   async getData ({ commit }) {
-    console.log('Bitesm store - get data from db with axios')
-    await Vue.axios.get('/items/')
+    console.log('Uniform store - get data from db with axios')
+    await Vue.axios.get('/asset/uniform/')
       .then((resp) => {
-        console.log('Bitesm Store get - response from db: ', resp)
+        console.log('Uniform Store get - response from db: ', resp)
         if (resp.status === 200) {
           commit('updatedbResponse', resp)
         } else {
@@ -30,12 +30,12 @@ const actions = {
       })
   },
   async addNewItem ({ commit }, payload) {
-    console.log('Store Create Bitems ')
-    await Vue.axios.post('/items/', payload)
+    console.log('Store Add Uniform ')
+    await Vue.axios.post('/asset/uniform/', payload)
       .then((resp) => {
         console.log('response from db: ', resp)
         if (resp.status === 200) {
-          console.log('Item saved to db: ', resp.data.body)
+          console.log('Uniform saved to db: ', resp.data.body)
           commit('addItemtoState', resp)
         } else {
           commit('showError', resp)
@@ -46,9 +46,9 @@ const actions = {
       })
   },
   async updateItem ({ commit }, payload) {
-    console.log('Store Update Items')
-    console.log('Store UpdateItems - updateItem db with axios: ', payload[0]._id)
-    await Vue.axios.put('/items/' + payload[0]._id, payload[0])
+    console.log('Store Update Uniform')
+    console.log('Store UpdateUniform - update db with axios: ', payload[0]._id)
+    await Vue.axios.put('/asset/uniform/' + payload[0]._id, payload[0])
       .then((resp) => {
         console.log('response from db: ', resp)
         if (resp.status === 200) {
@@ -66,17 +66,17 @@ const actions = {
 const mutations = {
   updatedbResponse (state, resp) {
     state.dbResponse = resp.data
-    console.log('Bitems Store - Update State of dbResponse: ', state.dbResponse)
+    console.log('Uniform Store - Update State of dbResponse: ', state.dbResponse)
   },
   addItemtoState (state, resp) {
     state.dbResponse.push(resp.data.body)
-    console.log('Bitems Store - Adds new item to state: ', state.dbResponse)
+    console.log('Uniform Store - Adds new item to state: ', state.dbResponse)
   },
   showResponse (resp) {
-    console.log('Bitems store - Show OK db response: ', resp)
+    console.log('Uniform store - Show OK db response: ', resp)
   },
   showError (resp) {
-    console.log('Bitems Store - Show Error db response: ', resp)
+    console.log('Uniform Store - Show Error db response: ', resp)
   }
 }
 
