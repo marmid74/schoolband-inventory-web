@@ -29,6 +29,21 @@ const actions = {
         commit('showError', 'Error: failed in Vue axios get')
       })
   },
+  async getInstrumentData ({ commit }) {
+    console.log('Bitems store - get instrument data from db with axios')
+    await Vue.axios.get('/asset/instrument/')
+      .then((resp) => {
+        console.log('Bitems Store get instruments - response from db: ', resp)
+        if (resp.status === 200) {
+          commit('updatedbResponse', resp)
+        } else {
+          commit('showError', resp)
+        }
+      })
+      .catch(() => {
+        commit('showError', 'Error: failed in Vue axios get')
+      })
+  },
   async addNewItem ({ commit }, payload) {
     console.log('Store Create Bitems ')
     await Vue.axios.post('/asset/uniform/', payload)

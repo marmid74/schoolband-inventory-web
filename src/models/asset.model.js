@@ -16,8 +16,13 @@ let AssetSchema = new Schema({
   },
   instrument: {
     itemtype: { type: String, required: false},
+    brand: { type: String, required: false},
     model: { type: String, required: false },
     quality: { type: String, required: false }
+//    comments: [{
+      //commentDate: { type: Date, required:false},
+//      comment: { type: String, required: false}
+//    }]
   }
   //instrument: [{type: Schema.Types.ObjectId, ref: 'Instrument',required: false}]
 });

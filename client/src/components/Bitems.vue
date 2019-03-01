@@ -16,10 +16,10 @@
       >
         <template slot="items" slot-scope="row">
           <td>{{ row.item.nr }}</td>
-          <td>{{ row.item.type }}</td>
-          <td>{{ row.item.model }}</td>
-          <td>{{ row.item.size }}</td>
-          <td>{{ row.item.quality}}</td>
+          <td>{{ row.item.uniform.itemtype }}</td>
+          <td>{{ row.item.uniform.model }}</td>
+          <td>{{ row.item.uniform.size }}</td>
+          <td>{{ row.item.uniform.quality}}</td>
           <td>{{ row.item.location }}</td>
           <td class="justify-center layout  px-0 py-0">
             <update-bitems bitemsComp :key="tableKey"

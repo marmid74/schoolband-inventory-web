@@ -6,7 +6,6 @@ import Asset from '../models/asset.model';
 }
 */
 
-
 // Generic endpoints for asses objects
 
 export function findOne(req,res) {   
@@ -37,12 +36,13 @@ export function getAll(req,res) {
         "assettype": req.url.split('/')[3]
     }
     
+    console.log(filterObj)
+
     Asset.find(filterObj, (err, asset) => {
         if(err) return res.status(500).send(err);         
         return res.status(200).send(asset);
     }); 
 }
-
 
 export function findById(req,res){
     console.log("EndpointAPI: findById");
@@ -68,7 +68,7 @@ export function findByIdAndDelete(req, res){
 
 // POST  CREATE UNIFORM
 export async function createUniform (req,res) {
-    console.log("EndpointAPI: createUniform ", req.body.itemtype );
+    console.log("EndpointAPI: createUniform ", req.body.assettype );
     let countItems = 0;
 
     console.log('body:', req.body);
@@ -100,9 +100,11 @@ export async function createUniform (req,res) {
     }
 }
 
-
 // POST  CREATE INSTRUMENT
 export async function createInstrument (req,res) {
+    console.log("EndpointAPI: createInstrument ", req.body.assettype );
+    let countItems = 0;
+
     console.log('body:', req.body);
     
     let filterObj = {           
@@ -112,50 +114,67 @@ export async function createInstrument (req,res) {
     
     try {
         let newAssetObj = new Asset(req.body);
+        let dbLookUp =  await Asset.find(filterObj)
+        console.log('dbLookUp result:', dbLookUp);
+
+        countItems = (Object.keys(dbLookUp).length).toString();
+        console.log('Value of count: ', countItems);
+        //let nextId = parseInt(countItems) + 1;
+        //newAssetObj.nr = nextId.toString();
 
         let result = await newAssetObj.save();
         res.send({
-            message: 'Instrument object saved successfully:',
+            message: 'Asset object saved successfully:',
             body: result
         });
         console.log('new obj to be saved', newAssetObj);
     } catch (err) {
         console.log('Error in Create new asset type instrument: ', err);
         return res.status(500).send(err);
+    }  
+    
+}
+
+export function findInstrumentById(req, res){
+    console.log("EndpointAPI: findInstrumentById");
+    const instrumentNumber = req.params.instrumentId;
+    const assetType = "instrument";
+    console.log("InstrumentNr given is:", instrumentNumber);
+
+    const qry = {
+        nr: instrumentNumber,
+        assettype: assetType
     }
-}
+    Asset.find(qry)
+        .exec()
+        .then(docs => res.status(200)
+            .json(docs))
+        .catch(err => res.status(500)
+            .json({
+                message: 'Error finding instrument with given id',
+                error: err
+            }));
 
-export function getAll(req, res) {
-    console.log("EndpointAPI: getAll: ", req.body);
-    let filterObj = {
-        "assettype": req.url.split('/')[3]
+}
+export function findInstrumentByLocation(req, res){
+    console.log("EndpointAPI: findInstrumentByLocation");
+    const locationId = req.params.location;
+    const assetType = "instrument";
+    console.log("Location given is:", locationId);
+
+    const qry = {
+        location: locationId,
+        assettype: assetType
     }
-    console.log(filterObj)
-
-    Asset.find(filterObj, (err, asset) => {
-        if(err) return res.status(500).send(err);
-        return res.status(200).send(asset);
-    });
-}
-// PUT
-export function findByIdAndUpdate(req, res){
-    console.log("EndpointAPI: findByIdAndUpdate: ", req.body);
-    Asset.findByIdAndUpdate(req.params.itemId, req.body, {new:true}, (err, items) => {
-        if(err) return res.status(500).send(err);
-        return res.status(200).send({'message': 'Successfully updated asset',
-                                     'inputdata': req.body,
-                                     'body': items
-                                    });
-    })
-}
-
-
-export function findById(req,res){
-    console.log("EndpointAPI: findById");
-    Asset.findById(req.params.itemId, (err, item) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).send(item);
-    });
+    Asset.find(qry)
+        .exec()
+        .then(docs => res.status(200)
+            .json(docs))
+        .catch(err => res.status(500)
+            .json({
+                message: 'Error finding instruments with given location',
+                error: err
+            }));
 }
 
 export function find(req,res) {   
@@ -189,14 +208,3 @@ export function listAll(req, res){
         });
 }
 
-export function findByIdAndDelete(req, res){
-    console.log("EndpointAPI: findByIdAndDelete");
-    Asset.findByIdAndDelete(req.params.itemId, (err, items) => {
-        if (err) return res.status(500).send(err);
-        const response = {
-            message: "Item successfully deleted",
-            id: items._id
-        };
-        return res.status(200).send(response);
-    });
-}
