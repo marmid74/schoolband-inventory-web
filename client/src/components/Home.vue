@@ -32,10 +32,7 @@
         <v-icon>queue_music</v-icon>
       </v-btn>
       <v-btn icon>
-        <v-icon>accessibility</v-icon>
-      </v-btn>
-            <v-btn icon>
-        <v-icon>album</v-icon>
+        <v-icon>person</v-icon>
       </v-btn>
       <v-tabs
         slot="extension"
@@ -46,28 +43,27 @@
         <v-tabs-slider color="yellow"></v-tabs-slider>
 
         <v-tab
-          v-for="item in items"
-          :key="item"
+          v-for="tb in tabs"
+          :key="tb.name"
+          @click.prevent="setActiveTabname(tb.name)"
         >
-          {{ item }}
+          {{ tb.name }}
         </v-tab>
       </v-tabs>
     </v-toolbar>
-    <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="item in items"
-        :key="item"
-      >
-        <v-card flat>
-          <v-card-text>{{ text }}</v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-
     <v-content>
       <v-container fluid>
-        <!-- <bitems> </bitems> -->
-        <instruments> </instruments>
+        <div v-if="displayContents('uniforms')">
+          <bitems> </bitems>
+        </div>
+        <div v-if="displayContents('instruments')">
+          <instruments> </instruments>
+        </div>
+        <div v-if="displayContents('scores')">
+          <v-card flat>
+            <v-card-text>{{ text }}</v-card-text>
+          </v-card>
+        </div>
       </v-container>
     </v-content>
     <v-footer color="indigo" app>
@@ -87,10 +83,22 @@ export default {
   },
   data: () => ({
     drawer: null,
-    tabs: null,
-    items: [
-      'Uniforms', 'Instruments', 'Scores'
-    ]
+    tabs: [
+      {
+        name: 'uniforms',
+        displayName: 'Uniforms'
+      },
+      {
+        name: 'instruments',
+        displayName: 'Instruments'
+      },
+      {
+        name: 'scores',
+        displayName: 'Scores'
+      }
+    ],
+    activeTabName: null,
+    text: 'Nothing implemented for this tab '
   }),
   computed: {
     isLoggedIn () {
@@ -98,6 +106,14 @@ export default {
     }
   },
   methods: {
+    setActiveTabname (name) {
+      this.activeTabName = name
+      console.log('ActiveTab is ' + this.activeTabName)
+    },
+    displayContents (name) {
+      console.log('DisplayContents was called. Active tab is: ' + this.activeTabName + ', given input is: ' + name)
+      return this.activeTabName === name
+    }
 
   },
   props: {
@@ -111,6 +127,7 @@ export default {
     if (!this.isLoggedIn) {
       this.$router.push({path: '/login'})
     }
+    this.activeTabName = this.tabs[0].name
   }
 }
 </script>

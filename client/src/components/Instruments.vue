@@ -3,9 +3,9 @@
     <v-card style="width: 100%;">
       <v-flex xs12 sm6 offset-sm3>
         <v-btn @click="getInstrumentData" color="primary">Get all data</v-btn>
-        <add-bitems
+        <!-- <add-bitems
           :initialValue="{}"
-        />
+        /> -->
       </v-flex>
       <v-flex xs12 sm6 md4>
         <h2>Results</h2>
