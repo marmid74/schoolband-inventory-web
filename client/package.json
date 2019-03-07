@@ -5,7 +5,7 @@
   "author": "marmid74 <marmid74@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server  --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
@@ -16,7 +16,8 @@
     "vue-router": "^3.0.1",
     "vuejs-smart-table": "0.0.3",
     "vuetify": "^1.3.14",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack-cli": "^3.2.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -62,7 +63,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": ">=3.1.11",
+    "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
