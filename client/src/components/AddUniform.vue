@@ -16,9 +16,9 @@
                 <p>Uniform type</p>
                 <v-overflow-btn
                     :items="dropdown_types"
-                    label="Itemtype"
+                    label="Uniformtype"
                     target="#dropdown-data"
-                    v-model="valueEmit.uniform.itemtype"
+                    v-model="valueEmit.itemtype"
                 ></v-overflow-btn>
               </v-flex>
               <v-flex xs12 sm4>
@@ -27,7 +27,7 @@
                     :items="dropdown_models"
                     label="Model"
                     target="#dropdown-data"
-                    v-model="valueEmit.uniform.model"
+                    v-model="valueEmit.model"
                 ></v-overflow-btn>
                 </v-flex>
                 <v-flex xs12 sm4>
@@ -36,7 +36,7 @@
                     :items="dropdown_sizes"
                     label="Size"
                     target="#dropdown-data"
-                    v-model="valueEmit.uniform.size"
+                    v-model="valueEmit.size"
                 ></v-overflow-btn>
                 </v-flex>
                 <v-flex xs12 sm4>
@@ -45,7 +45,7 @@
                     :items="dropdown_qualities"
                     label="Quality"
                     target="#dropdown-data"
-                    v-model="valueEmit.uniform.quality"
+                    v-model="valueEmit.quality"
                 ></v-overflow-btn>
                 </v-flex>
                 <v-flex xs12 sm4>
@@ -71,11 +71,12 @@
 </template>
 
 <script>
+
 export default {
   name: 'AddUniform',
   data () {
     return {
-      valueEmit: this.initialValue,
+      valueEmit: {},
       dialog: false,
       // dropdown_types: this.ddType,
       dropdown_types: ['Jacket', 'Trousers', 'Hat'],
@@ -93,41 +94,39 @@ export default {
     this.$store.dispatch('getConfigUniform')
     this.configUniform = this.$store.getters.dbConfigUniform
     console.log('AddUniform Hook created - configPropertyObj: ', this.configUniform)
+    console.log('intialValue:', this.initialValue )
   },
   propertyComputed () {
     console.log('I change when this.property changes.')
     return this.property
   },
   computed: {
-    dbUniformConfig () {
-      let ddObj = {}
-      let configObj = this.$store.getters.dbConfigUniform
-      ddObj.model = configObj[0].itemtypes.itemtype.model
-      console.log('MODEL', ddObj.model)
-      return true
-      // return this.$store.getters.dbResult
-    }
+  // dbUniformConfig () {
+  // let ddObj = {}
+  // let configObj = this.$store.getters.dbConfigUniform
+  // ddObj.model = configObj[0].itemtypes.itemtype.model
+  // console.log('MODEL', ddObj.model)
+  // return true
+  // return this.$store.getters.dbResult
+  // }
   },
   methods: {
-    populateDropDown: function () {
-      let items = this.$store.getters.dbConfigUniform[0].itemtypes
-      let modellist = []
-      for (let item = 0; item < items.length; item++) {
-        console.log('Value: ', items)
-        modellist.push(items[item].itemtype.name)
-      }
-      this.ddType = modellist
-      console.log('AddUniform method populateDropDown: ', this.ddType)
-      return this.ddType
-    },
+  // populateDropDown: function () {
+  // let items = this.$store.getters.dbConfigUniform[0].itemtypes
+  // let modellist = []
+  // for (let item = 0; item < items.length; item++) {
+  // console.log('Value: ', items)
+  // modellist.push(items[item].itemtype.name)
+  // }
+  // this.ddType = modellist
+  // console.log('AddUniform method populateDropDown: ', this.ddType)
+  // return this.ddType
     addNewItem: function () {
-      console.log('AddUniform.vue: addNewItem', this.valueEmit)
+      console.log('AddUniform.vue: addNewUniform', this.valueEmit)
       this.dialog = false
-      this.$store.dispatch('addNewItem', this.valueEmit)
-      this.valueEmit = '{"assettype": "uniform"}'
+      this.$store.dispatch('addNewUniform', this.valueEmit)
     }
   }
-
 }
 </script>
 

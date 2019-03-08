@@ -29,9 +29,18 @@ const actions = {
         commit('showError', 'Error: failed in Vue axios get')
       })
   },
-  async addNewItem ({ commit }, payload) {
+  async addNewUniform ({ commit }, payload) {
     console.log('Store Add Uniform ')
-    await Vue.axios.post('/asset/uniform/', payload)
+    let newUniformobj = {
+      "nr": "",
+      "assettype": "uniform",
+      "location": payload.location,
+      "uniform.itemtype": payload.itemtype,
+      "uniform.model": payload.model,
+      "uniform.size": payload.size,
+      "uniform.quality":payload.quality
+    }
+    await Vue.axios.post('/asset/uniform/', newUniformobj)
       .then((resp) => {
         console.log('response from db: ', resp)
         if (resp.status === 200) {
