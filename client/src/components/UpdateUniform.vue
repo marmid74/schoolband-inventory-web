@@ -113,7 +113,7 @@ export default {
     }
   },
   methods: {
-    updateItem (item) {
+    updateUniform (item) {
       this.dialog = false
       console.log('UpdateUniform: Update item to db:', this.valueEmit)
       this.$store.dispatch('updateItem', [this.valueEmit])

@@ -45,7 +45,7 @@ const actions = {
         commit('showError', 'Error: failed in Vue axios post')
       })
   },
-  async updateItem ({ commit }, payload) {
+  async updateUniform ({ commit }, payload) {
     console.log('Store Update Uniform')
     console.log('Store UpdateUniform - update db with axios: ', payload[0]._id)
     await Vue.axios.put('/asset/uniform/' + payload[0]._id, payload[0])
