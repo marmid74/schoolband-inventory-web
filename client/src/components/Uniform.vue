@@ -22,7 +22,7 @@
           <td>{{ row.item.uniform.quality}}</td>
           <td>{{ row.item.location }}</td>
           <td class="justify-center layout  px-0 py-0">
-            <update-uniform bitemsComp :key="tableKey"
+            <update-uniform :key="tableKey"
               :initialValue="row.item"
                @update-value-by-child="updateParentValue"
             />

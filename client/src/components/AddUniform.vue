@@ -94,7 +94,7 @@ export default {
     this.$store.dispatch('getConfigUniform')
     this.configUniform = this.$store.getters.dbConfigUniform
     console.log('AddUniform Hook created - configPropertyObj: ', this.configUniform)
-    console.log('intialValue:', this.initialValue )
+    console.log('intialValue:', this.initialValue)
   },
   propertyComputed () {
     console.log('I change when this.property changes.')

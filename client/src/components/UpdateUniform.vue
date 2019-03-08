@@ -24,7 +24,7 @@
                     :items="dropdown_types"
                     label="Uniform type"
                     target="#dropdown-data"
-                    v-model="valueEmit.type"
+                    v-model="valueEmit.uniform.itemtype"
                     @input="$emit('update-value-by-child', valueEmit)"
                 ></v-overflow-btn>
               </v-flex>
@@ -34,7 +34,7 @@
                     :items="dropdown_models"
                     label="Model"
                     target="#dropdown-data"
-                    v-model="valueEmit.model"
+                    v-model="valueEmit.uniform.model"
                 ></v-overflow-btn>
                 </v-flex>
                 <v-flex xs12 sm4>
@@ -43,7 +43,7 @@
                     :items="dropdown_sizes"
                     label="Size"
                     target="#dropdown-data"
-                    v-model="valueEmit.size"
+                    v-model="valueEmit.uniform.size"
                 ></v-overflow-btn>
                 </v-flex>
                 <v-flex xs12 sm4>
@@ -52,7 +52,7 @@
                     :items="dropdown_qualities"
                     label="Quality"
                     target="#dropdown-data"
-                    v-model="valueEmit.quality"
+                    v-model="valueEmit.uniform.quality"
                 ></v-overflow-btn>
                 </v-flex>
                 <v-flex xs12 sm4>
@@ -70,7 +70,7 @@
               <v-btn flat color="primary">More</v-btn>
               <v-spacer></v-spacer>
               <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-              <v-btn flat @click="updateItem">Save</v-btn>
+              <v-btn flat @click="updateUniform">Save</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -103,6 +103,10 @@ export default {
   props: {
     initialValue: Object
   },
+  created () {
+    console.log('Update intialValue: ', this.initialValue)
+    console.log('Edit render initialdata: ', this.valueEmit)
+  },
   computed: {
     dbConfig () {
       let config = []
@@ -115,8 +119,8 @@ export default {
   methods: {
     updateUniform (item) {
       this.dialog = false
-      console.log('UpdateUniform: Update item to db:', this.valueEmit)
-      this.$store.dispatch('updateItem', [this.valueEmit])
+      console.log('UpdateUniform: Update db:', this.valueEmit)
+      this.$store.dispatch('updateUniform', [this.valueEmit])
     }
   }
 }
